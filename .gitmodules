@@ -1,0 +1,3 @@
+[submodule "spotistics-backend"]
+	path = spotistics-backend
+	url = git@github.com:Jasonli8/spotistics-backend.git
