@@ -11,9 +11,12 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.spotistics.ui.theme.SpotisticsTheme
+import android.content.Intent
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
+        val intent = Intent(this, WrappedActivity::class.java)
+        startActivity(intent)
         super.onCreate(savedInstanceState)
         setContent {
             SpotisticsTheme {
