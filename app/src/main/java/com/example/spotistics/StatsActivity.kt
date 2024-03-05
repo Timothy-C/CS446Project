@@ -22,12 +22,26 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import coil.compose.AsyncImage
-import com.example.spotistics.ui.theme.SpotisticsTheme
+import com.google.android.gms.net.CronetProviderInstaller
+import org.chromium.net.CronetEngine
+import java.io.BufferedInputStream
+import java.io.BufferedReader
+import java.io.InputStream
+import java.net.HttpURLConnection
+import java.net.URL
+import java.util.concurrent.Executor
+import java.util.concurrent.Executors
+
 
 class StatsActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+  /*      CronetProviderInstaller.installProvider(applicationContext)
+        val myBuilder = CronetEngine.Builder(applicationContext)
+        val cronetEngine: CronetEngine = myBuilder.build()
+        val executor: Executor = Executors.newSingleThreadExecutor()
+*/
         setContent {
             StatsContent()
         }
@@ -38,7 +52,6 @@ class StatsActivity : ComponentActivity() {
 @Preview(apiLevel = 33)
 @Composable
 fun StatsContent() {
-    SpotisticsTheme {
         Scaffold(
             topBar = {
                 TopAppBar(
@@ -62,8 +75,6 @@ fun StatsContent() {
             ScrollContent(innerPadding)
         }
 
-
-    }
 }
 
 @Composable
@@ -73,12 +84,20 @@ fun ScrollContent(innerPadding: PaddingValues) {
         model = "https://en.wikipedia.org/static/images/icons/wikipedia.png",
         contentDescription = "Translated description of what the image contains"
     )*/
+    var content: String = "sadge"
+
+    Text(
+        content,
+        maxLines = 1,
+        overflow = TextOverflow.Ellipsis
+    )
     val range = 1..50
     // tchan: replace the 1 to 50 with actual song names
-    // get the song names from api (either local flask server or the actual one)
+    // tchan: get the song names from api (either local flask server or the actual one)
     LazyColumn(
         modifier = Modifier
-            .fillMaxSize().padding(16.dp),
+            .fillMaxSize()
+            .padding(16.dp),
         contentPadding = innerPadding,
         verticalArrangement = Arrangement.spacedBy(8.dp)
     ) {

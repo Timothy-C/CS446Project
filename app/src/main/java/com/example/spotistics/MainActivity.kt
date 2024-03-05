@@ -1,5 +1,6 @@
 package com.example.spotistics
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import com.example.spotistics.ui.theme.SpotisticsTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        startActivity(Intent(this, StatsActivity::class.java))
         setContent {
             SpotisticsTheme {
                 // A surface container using the 'background' color from the theme
