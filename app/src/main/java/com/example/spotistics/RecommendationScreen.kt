@@ -25,6 +25,9 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material3.IconButton
+
 
 @OptIn(ExperimentalMaterial3Api::class) // Opt-in for all Material 3 experimental APIs
 @Composable
@@ -106,6 +109,7 @@ fun DefaultPreview() {
     }
 }
 
+
 @Composable
 fun SongItem(song: Song) {
     Row(
@@ -120,9 +124,14 @@ fun SongItem(song: Song) {
             modifier = Modifier.size(56.dp)
         )
         Spacer(modifier = Modifier.width(8.dp))
-        Column {
+        Column(
+            modifier = Modifier.weight(1f) // This ensures the column takes up most of the row space, pushing the IconButton to the end
+        ) {
             Text(text = song.title, style = MaterialTheme.typography.bodyLarge)
             Text(text = song.artist, style = MaterialTheme.typography.bodySmall)
+        }
+        IconButton(onClick = { /* Implement action for more options here */ }) {
+            Icon(Icons.Default.MoreVert, contentDescription = "More Options")
         }
     }
 }
