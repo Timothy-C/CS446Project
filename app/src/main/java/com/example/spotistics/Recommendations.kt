@@ -14,12 +14,12 @@ import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import androidx.compose.material3.MaterialTheme
 
-data class MusicItem(
-    val id: Int,
-    val coverImageUrl: String,
-    val songName: String,
-    val singerName: String
-)
+
+fun Recommendations(musicList: List<MusicItem>) {
+
+
+
+}
 
 @Composable
 fun MusicItemComposable(musicItem: MusicItem, modifier: Modifier = Modifier) {
