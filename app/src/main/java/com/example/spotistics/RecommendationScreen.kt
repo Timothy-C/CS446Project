@@ -101,13 +101,13 @@ fun RecommendationScreen(songs: List<Song>) {
 }
 
 // Preview for RecommendationScreen
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    SpotisticsTheme {
-        RecommendationScreen(songs = dummySongs)
-    }
-}
+//@Preview(showBackground = true)
+//@Composable
+//fun DefaultPreview() {
+//    SpotisticsTheme {
+//        RecommendationScreen(songs = dummySongs)
+//    }
+//}
 
 
 @Composable
