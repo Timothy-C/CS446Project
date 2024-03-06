@@ -1,11 +1,13 @@
 package com.example.spotistics
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,11 +32,12 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.spotistics.ui.theme.Honeydew
 import com.example.spotistics.ui.theme.quicksandFamily
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -61,11 +64,9 @@ fun MainSearchBar() {
     }
 }
 
-//10.0.2.2
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
+fun Home(innerPadding: PaddingValues, colScrollState: LazyListState) {
     val rowScrollState = rememberScrollState()
 
     LazyColumn(
@@ -87,13 +88,16 @@ fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
             )
             Spacer(modifier = Modifier.height(18.dp))
             Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = Honeydew
-                ),
                 modifier = Modifier
                     .height(170.dp)
                     .fillMaxWidth()
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.featured),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
             Spacer(modifier = Modifier.height(30.dp))
         }
@@ -115,7 +119,7 @@ fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
                 for (i in 1..10) {
                     Card(
                         colors = CardDefaults.cardColors(
-                            containerColor = Honeydew
+                            containerColor = Color.White
                         ),
                         modifier = Modifier
                             .size(width = 170.dp, height = 170.dp)
@@ -149,7 +153,7 @@ fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
                 for (i in 1..10) {
                     Card(
                         colors = CardDefaults.cardColors(
-                            containerColor = Honeydew
+                            containerColor = Color.White
                         ),
                         modifier = Modifier
                             .height(50.dp)
