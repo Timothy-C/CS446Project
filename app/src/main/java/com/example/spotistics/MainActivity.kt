@@ -4,7 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.compose.setContent
-import androidx.appcompat.app.AppCompatActivity
+import androidx.activity.ComponentActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -18,7 +18,7 @@ import androidx.compose.material3.*
 import com.spotify.android.appremote.api.SpotifyAppRemote
 
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : ComponentActivity() {
     private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
     private val redirectUri = "http://localhost:3000/auth/callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
@@ -56,7 +56,5 @@ fun Greeting(name: String, modifier: Modifier = Modifier) {
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview() {
-    SpotisticsTheme {
-        Greeting("Android")
-    }
+    Greeting("Android")
 }

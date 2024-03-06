@@ -97,7 +97,5 @@ fun ThrowbacksScreen(songs: List<Song>) {
 @Preview(showBackground = true)
 @Composable
 fun ThrowbacksPreview() {
-    SpotisticsTheme {
-        ThrowbacksScreen(songs = dummySongs)
-    }
+    ThrowbacksScreen(songs = dummySongs)
 }
