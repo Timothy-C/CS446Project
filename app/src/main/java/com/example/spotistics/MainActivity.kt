@@ -18,7 +18,6 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
-import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
@@ -55,7 +54,6 @@ import com.example.spotistics.ui.theme.Navy
 import com.example.spotistics.ui.theme.quicksandFamily
 import kotlinx.coroutines.launch
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.spotistics.ui.theme.SpotisticsTheme
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
 import com.spotify.android.appremote.api.SpotifyAppRemote
@@ -79,7 +77,6 @@ class MainActivity : ComponentActivity() {
         Log.d("mainactivity", "mainactivity")
         setContent {
             Navigation()
-            SpotisticsTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -92,7 +89,6 @@ class MainActivity : ComponentActivity() {
 
 //                    Settings()
                 }
-            }
         }
     }
 }
