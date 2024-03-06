@@ -1,7 +1,7 @@
 package com.example.spotistics
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import android.util.Log
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
@@ -27,6 +27,11 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
+import androidx.appcompat.app.AppCompatActivity
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -47,6 +52,11 @@ import androidx.compose.ui.unit.sp
 import com.example.spotistics.ui.theme.Navy
 import com.example.spotistics.ui.theme.quicksandFamily
 import kotlinx.coroutines.launch
+import androidx.compose.ui.tooling.preview.Preview
+import com.example.spotistics.ui.theme.SpotisticsTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
+import com.spotify.android.appremote.api.SpotifyAppRemote
 
 object Screens {
     const val Home = "home"
@@ -57,11 +67,30 @@ object Screens {
     const val Settings = "settings"
 }
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
+    private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
+    private val redirectUri = "http://localhost:3000/auth/callback"
+    private var spotifyAppRemote: SpotifyAppRemote? = null
+  
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("mainactivity", "mainactivity")
         setContent {
             Navigation()
+            SpotisticsTheme {
+                // A surface container using the 'background' color from the theme
+                Surface(
+                    modifier = Modifier.fillMaxSize(),
+                    color = MaterialTheme.colorScheme.background
+                ) {
+//                    Greeting("Android")
+//                    RecommendationScreen(songs = dummySongs)
+                    ThrowbacksScreen(songs = dummySongs2)
+//                    Login()
+
+//                    Settings()
+                }
+            }
         }
     }
 }
