@@ -12,6 +12,8 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.spotistics.ui.theme.SpotisticsTheme
+import androidx.compose.foundation.layout.*
+import androidx.compose.material3.*
 import com.spotify.android.appremote.api.SpotifyAppRemote
 
 
@@ -30,8 +32,9 @@ class MainActivity : AppCompatActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    Greeting("Android")
-                    println("xxx")
+//                    Greeting("Android")
+//                    RecommendationScreen(songs = dummySongs)
+                    ThrowbacksScreen(songs = dummySongs2)
 //                    Login()
 
 //                    Settings()
