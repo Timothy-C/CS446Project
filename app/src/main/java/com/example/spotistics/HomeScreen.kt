@@ -197,7 +197,7 @@ fun Home(innerPadding: PaddingValues, colScrollState: LazyListState) {
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
-                for (i in 1..10) {
+                for (i in 1..5) {
                     Card(
                         colors = CardDefaults.cardColors(
                             containerColor = Color.White
