@@ -1,8 +1,9 @@
 package com.example.spotistics
 
 import android.os.Bundle
-import androidx.activity.ComponentActivity
+import android.util.Log
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -11,10 +12,17 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.spotistics.ui.theme.SpotisticsTheme
+import com.spotify.android.appremote.api.SpotifyAppRemote
 
-class MainActivity : ComponentActivity() {
+
+class MainActivity : AppCompatActivity() {
+    private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
+    private val redirectUri = "http://localhost:3000/auth/callback"
+    private var spotifyAppRemote: SpotifyAppRemote? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        Log.d("mainactivity", "mainactivity")
         setContent {
             SpotisticsTheme {
                 // A surface container using the 'background' color from the theme
@@ -23,6 +31,10 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background
                 ) {
                     Greeting("Android")
+                    println("xxx")
+//                    Login()
+
+//                    Settings()
                 }
             }
         }
