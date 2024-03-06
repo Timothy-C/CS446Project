@@ -1,9 +1,11 @@
 package com.example.spotistics
 
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -51,8 +53,8 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.spotistics.ui.theme.Navy
 import com.example.spotistics.ui.theme.quicksandFamily
+import com.spotify.android.appremote.api.SpotifyAppRemote
 import kotlinx.coroutines.launch
-//import com.spotify.android.appremote.api.SpotifyAppRemote
 
 object Screens {
     const val Home = "home"
@@ -66,8 +68,9 @@ object Screens {
 class MainActivity : ComponentActivity() {
     private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
     private val redirectUri = "http://localhost:3000/auth/callback"
-//    private var spotifyAppRemote: SpotifyAppRemote? = null
+    private var spotifyAppRemote: SpotifyAppRemote? = null
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("mainactivity", "mainactivity")
@@ -78,6 +81,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation() {
     val navController = rememberNavController()
@@ -91,6 +95,7 @@ fun Navigation() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun MainNavigation(navController: NavHostController) {
@@ -136,7 +141,7 @@ fun MainNavigation(navController: NavHostController) {
                          Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
                          Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
                          //Screens.Statistics -> Statistics(innerPadding, scrollState)
-                         //Screens.History -> History(innerPadding, scrollState)
+                         Screens.History -> History(innerPadding, scrollState)
                          Screens.Settings -> Settings(innerPadding, scrollState)
                     }
                 }
