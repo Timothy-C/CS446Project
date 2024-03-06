@@ -4,7 +4,6 @@ import androidx.compose.runtime.*
 import androidx.compose.material3.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.ui.tooling.preview.Preview
-import com.example.spotistics.ui.theme.SpotisticsTheme
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.Image
