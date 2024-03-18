@@ -1,11 +1,15 @@
 package com.example.spotistics
 
 import androidx.compose.foundation.ExperimentalFoundationApi
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -30,12 +34,15 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.example.spotistics.ui.theme.Honeydew
+import coil.compose.AsyncImage
+import com.example.spotistics.ui.theme.Navy
 import com.example.spotistics.ui.theme.quicksandFamily
+import recSongs
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -61,11 +68,9 @@ fun MainSearchBar() {
     }
 }
 
-//10.0.2.2
-
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
+fun Home(innerPadding: PaddingValues, colScrollState: LazyListState) {
     val rowScrollState = rememberScrollState()
 
     LazyColumn(
@@ -87,13 +92,16 @@ fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
             )
             Spacer(modifier = Modifier.height(18.dp))
             Card(
-                colors = CardDefaults.cardColors(
-                    containerColor = Honeydew
-                ),
                 modifier = Modifier
                     .height(170.dp)
                     .fillMaxWidth()
             ) {
+                Image(
+                    painter = painterResource(id = R.drawable.featured),
+                    contentDescription = null,
+                    contentScale = ContentScale.Crop,
+                    modifier = Modifier.fillMaxSize(),
+                )
             }
             Spacer(modifier = Modifier.height(30.dp))
         }
@@ -112,23 +120,66 @@ fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
                     .horizontalScroll(rowScrollState)
                     .padding(innerPadding)
             ) {
-                for (i in 1..10) {
-                    Card(
-                        colors = CardDefaults.cardColors(
-                            containerColor = Honeydew
-                        ),
-                        modifier = Modifier
-                            .size(width = 170.dp, height = 170.dp)
-                    ) {
-                        Text(
-                            text = "Album",
-                            modifier = Modifier
-                                .padding(16.dp),
-                            textAlign = TextAlign.Center,
-                        )
-                    }
-                    Spacer(modifier = Modifier.width(16.dp))
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 170.dp, height = 170.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.album1),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
                 }
+                Spacer(modifier = Modifier.width(16.dp))
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 170.dp, height = 170.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.album2),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 170.dp, height = 170.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.album3),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
+                Card(
+                    colors = CardDefaults.cardColors(
+                        containerColor = Color.White
+                    ),
+                    modifier = Modifier
+                        .size(width = 170.dp, height = 170.dp)
+                ) {
+                    Image(
+                        painter = painterResource(id = R.drawable.album4),
+                        contentDescription = null,
+                        contentScale = ContentScale.Crop,
+                        modifier = Modifier.fillMaxSize(),
+                    )
+                }
+                Spacer(modifier = Modifier.width(16.dp))
             }
             Spacer(modifier = Modifier.height(30.dp))
         }
@@ -146,21 +197,49 @@ fun HomeScreen(innerPadding: PaddingValues, colScrollState: LazyListState) {
                 modifier = Modifier
                     .padding(innerPadding)
             ) {
-                for (i in 1..10) {
+                for (i in 1..5) {
                     Card(
                         colors = CardDefaults.cardColors(
-                            containerColor = Honeydew
+                            containerColor = Color.White
                         ),
                         modifier = Modifier
-                            .height(50.dp)
+                            .height(90.dp)
                             .fillMaxWidth()
                     ) {
-                        Text(
-                            text = "Song",
-                            modifier = Modifier
-                                .padding(16.dp),
-                            textAlign = TextAlign.Center,
-                        )
+                        Row() {
+                            Box(
+                                modifier = Modifier
+                                    .padding(10.dp, 14.dp, 0.dp, 0.dp)
+                                    .weight(1f)
+                                    .fillMaxHeight()
+                            ) {
+                                AsyncImage(
+                                    model = recSongs[i][2],
+                                    contentDescription = "Translated description of what the image contains",
+                                )
+                            }
+                            Column(
+                                modifier = Modifier
+                                    .weight(4f)
+                                    .padding(8.dp),
+                            ) {
+                                androidx.compose.material3.Text(
+                                    text = recSongs[i][1],
+                                    color = Navy,
+                                    fontSize = 16.sp,
+                                    fontFamily = quicksandFamily,
+                                    fontWeight = FontWeight.Bold
+                                )
+                                Spacer(modifier = Modifier.height(5.dp))
+                                androidx.compose.material3.Text(
+                                    text = recSongs[i][3],
+                                    color = Color.Gray,
+                                    fontSize = 12.sp,
+                                    fontFamily = quicksandFamily,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
+                        }
                     }
                     Spacer(modifier = Modifier.height(15.dp))
                 }

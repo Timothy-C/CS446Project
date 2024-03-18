@@ -1,9 +1,11 @@
 package com.example.spotistics
 
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
+import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -18,6 +20,7 @@ import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
+import androidx.compose.material.Text
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Menu
 import androidx.compose.material.rememberScaffoldState
@@ -27,12 +30,6 @@ import androidx.compose.material3.TopAppBarColors
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
-import androidx.appcompat.app.AppCompatActivity
-import androidx.activity.ComponentActivity
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
@@ -50,13 +47,14 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
 import com.example.spotistics.ui.theme.Navy
 import com.example.spotistics.ui.theme.quicksandFamily
-import kotlinx.coroutines.launch
-import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.foundation.layout.*
-import androidx.compose.material3.*
 import com.spotify.android.appremote.api.SpotifyAppRemote
+import kotlinx.coroutines.launch
 
 object Screens {
     const val Home = "home"
@@ -71,31 +69,36 @@ class MainActivity : ComponentActivity() {
     private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
     private val redirectUri = "http://localhost:3000/auth/callback"
     private var spotifyAppRemote: SpotifyAppRemote? = null
-  
+
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("mainactivity", "mainactivity")
         setContent {
+            actionBar?.hide()
             Navigation()
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-//                    Greeting("Android")
-//                    RecommendationScreen(songs = dummySongs)
-                    ThrowbacksScreen(songs = dummySongs2)
-//                    Login()
-
-//                    Settings()
-                }
         }
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Navigation() {
+    val navController = rememberNavController()
+    NavHost(navController = navController, startDestination = "login") {
+        composable("login") {
+            Login(navController)
+        }
+        composable("home") {
+            MainNavigation(navController)
+        }
+    }
+}
+
+@RequiresApi(Build.VERSION_CODES.O)
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun MainNavigation(navController: NavHostController) {
     var route by remember {mutableStateOf(Screens.Home)}
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -130,14 +133,16 @@ fun Navigation() {
                 )
             },
             content = { innerPadding ->
-                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
+                CompositionLocalProvider(
+                    LocalLayoutDirection provides LayoutDirection.Ltr,
+                ) {
                     when (route) {
-                        Screens.Home -> HomeScreen(innerPadding, scrollState)
-                        // Screens.Recommendations -> Recommendations(innerPadding, scrollState)
-                        // Screens.Throwbacks -> Throwbacks(innerPadding, scrollState)
-                        // Screens.Statistics -> Statistics(innerPadding, scrollState)
-                        // Screens.History -> History(innerPadding, scrollState)
-                        // Screens.Settings -> Settings(innerPadding, scrollState)
+                         Screens.Home -> Home(innerPadding, scrollState)
+                         Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
+                         Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
+                         //Screens.Statistics -> Statistics(innerPadding, scrollState)
+                         Screens.History -> History(innerPadding, scrollState)
+                         Screens.Settings -> Settings(innerPadding, scrollState)
                     }
                 }
             }
