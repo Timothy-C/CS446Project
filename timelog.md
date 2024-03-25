@@ -14,6 +14,8 @@
 
 |2024/03/01|-----|−−−−−−−|−−−−−−−−|3.5--|-------|--------| Develop and design home screen with side navigation panel
 
+|2024/03/02|-3---|−−−−−−−|−−−−−−−−|-----|-------|--------| Develop history page
+
 |2024/03/03|6----|6------|6-------|6----|6------|6-------| Merge all changes and prepare prototype with mocked responses and 
 
 |2024/03/10|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|6------|--------| Implement API endpoints for direct access to Spotify API information
