@@ -22,4 +22,6 @@
 
 |2024/03/17|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|4------|--------| Added Spotify search endpoint with extended search parameters which all endpoints in future will implement. Cleaned up Spotify response parsing code
 
-|2024/03/25|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|3------|--------| Setup and deploy API and DB to AWS
+|2024/03/25|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|5------|--------| Setup and deploy API and DB to AWS
+
+|2024/03/25|−−−−−|3−−−−−−|−−−−−−−−|−−−−−|3------|--------| Convert Spotify's authentication SDK sample code into Kotlin for reference in app
