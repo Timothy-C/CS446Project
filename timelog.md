@@ -10,6 +10,10 @@
 
 |2024/02/21|-----|−−−−−−−|−−−−−−−−|1----|-------|--------| Setup top app bar, navigation, and home screen structure
 
+|2024/02/23|-----|−−−−−−−|−−4.0-−−|−−−−−|-------|--------| Develop recommendations page
+
+|2024/02/26|-----|−−−−−−−|−-3.0-−−|−−−−−|-------|--------| Develop Throwbacks page, resolved error
+
 |2024/02/29|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|3.0----|--------| Implement authentication and session management API through Spotify's API and initialize app on Spotify Developer Platform
 
 |2024/03/01|-----|−−−−−−−|−−−−−−−−|3.5--|-------|--------| Develop and design home screen with side navigation panel
