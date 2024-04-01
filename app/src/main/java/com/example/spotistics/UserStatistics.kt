@@ -71,7 +71,7 @@ fun ListeningStatisticsScreen() {
             if (isDropDownMenuExpanded) {
                 // Dropdown menu with calendar
                 Popup {
-                    CalendarView(selectedWeek) { newDate ->
+                    CalendarView(selectedWeek, selectedWeek) { newDate,newDate2 ->
                         selectedWeek = newDate
                         isDropDownMenuExpanded = false
                     }
@@ -223,7 +223,7 @@ fun TopItemsSection(
 
 
 @Composable
-fun CalendarView(selectedDate: Calendar, onDateSelected: (Calendar) -> Unit) {
+fun CalendarView(selectedDate: Calendar, selectedDate2: Calendar, onDateSelected: (Calendar, Calendar) -> Unit) {
     // Dummy calendar view for now
     Box(
         modifier = Modifier
