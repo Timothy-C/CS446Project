@@ -4,4 +4,7 @@
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
     <string name="title_activity_home_screen">HomeScreen</string>
+    <string name="warning_need_token">You need to request an access token first</string>
+    <string name="code">Code: %1$s</string>
+    <string name="token">Access Token: %1$s</string>
 </resources>
