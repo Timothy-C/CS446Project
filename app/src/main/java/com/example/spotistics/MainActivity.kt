@@ -97,7 +97,12 @@ class MainActivity : AppCompatActivity() {
             actionBar?.hide()
             Navigation()
         }
-        setContentView(R.layout.activity_main)
+//        setContentView(R.layout.activity_main)
+//        supportActionBar!!.title = String.format(
+//            Locale.US,
+//            "Spotify Auth %s",
+//            BuildConfig.LIB_VERSION_NAME
+//        )
     }
 
     override fun onDestroy() {
