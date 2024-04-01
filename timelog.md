@@ -38,3 +38,6 @@
 
 |2024/03/31|-----|-------|--------|-----|-------|2-------| Added Scroll bar to display user preferences Statistics
 
+|2024/04/01|-----|-------|--------|-----|-------|3-------| Added Calendar to filter Statistics by week
+
+
