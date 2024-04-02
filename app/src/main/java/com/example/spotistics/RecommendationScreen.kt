@@ -288,7 +288,7 @@ fun FilterSliderWithSteps(
     }
 }
 @Composable
-fun SongItem(song: Song) {
+fun SongItem(song: Song, textColor: Color = Color.Black) {
     var isLiked by remember { mutableStateOf(false) }
 
     Row(
@@ -308,7 +308,7 @@ fun SongItem(song: Song) {
         ) {
             Text(
                 text = song.title,
-                color = Color.Black,
+                color = textColor,
                 fontSize = 20.sp,
                 fontFamily = quicksandFamily,
                 fontWeight = FontWeight.Normal
@@ -316,7 +316,7 @@ fun SongItem(song: Song) {
             Spacer(modifier = Modifier.height(5.dp))
             Text(
                 text = song.artist,
-                color = Color.Black,
+                color = textColor,
                 fontSize = 15.sp,
                 fontFamily = quicksandFamily,
                 fontWeight = FontWeight.Normal
@@ -334,7 +334,7 @@ fun SongItem(song: Song) {
             Icon(
                 Icons.Default.MoreVert,
                 contentDescription = "More Options",
-                tint = Color.Black
+                tint = textColor
             )
         }
     }
