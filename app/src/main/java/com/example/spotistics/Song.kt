@@ -31,3 +31,10 @@ val dummySongs2 = listOf(
     Song(8, R.drawable.bohemian_rhapsody, "Bohemian Rhapsody", "Queen"),
     Song(9, R.drawable.bohemian_rhapsody, "Bohemian Rhapsody", "Queen")
 )
+
+data class SongStat(
+    val timeStamp: String,
+    val coverResource: String,
+    val title: String,
+    val artist: String
+)
