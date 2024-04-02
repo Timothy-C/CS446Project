@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.QueryStats
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SettingsBackupRestore
 import androidx.compose.runtime.Composable
@@ -54,6 +55,12 @@ fun NavigationDrawer(
             title = "Home",
             contentDescription = "",
             icon = Icons.Default.Home
+        ),
+        NavigationItem(
+            id = "search",
+            title = "Search",
+            contentDescription = "",
+            icon = Icons.Default.Search
         ),
         NavigationItem(
             id = "recs",

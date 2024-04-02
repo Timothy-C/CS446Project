@@ -1,5 +1,6 @@
 package com.example.spotistics
 
+import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -8,6 +9,7 @@ import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -39,6 +41,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -58,6 +61,7 @@ import kotlinx.coroutines.launch
 
 object Screens {
     const val Home = "home"
+    const val Search = "search"
     const val Recommendations = "recs"
     const val Throwbacks = "throwbacks"
     const val Statistics = "stats"
@@ -74,23 +78,24 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         Log.d("mainactivity", "mainactivity")
+
         setContent {
             actionBar?.hide()
-            Navigation()
+            Navigation(applicationContext)
         }
     }
 }
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation() {
+fun Navigation(applicationContext: Context) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
             Login(navController)
         }
         composable("home") {
-            MainNavigation(navController)
+            MainNavigation(navController, applicationContext)
         }
     }
 }
@@ -98,7 +103,7 @@ fun Navigation() {
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavigation(navController: NavHostController) {
+fun MainNavigation(navController: NavHostController, applicationContext: Context) {
     var route by remember {mutableStateOf(Screens.Home)}
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
@@ -108,8 +113,9 @@ fun MainNavigation(navController: NavHostController) {
 
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Scaffold(
-            backgroundColor = Navy,
+            backgroundColor = Color.Transparent,
             modifier = Modifier
+                .background(Brush.verticalGradient(listOf(Navy, Color.Black)))
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             scaffoldState = scaffoldState,
             topBar = {
@@ -137,7 +143,8 @@ fun MainNavigation(navController: NavHostController) {
                     LocalLayoutDirection provides LayoutDirection.Ltr,
                 ) {
                     when (route) {
-                         Screens.Home -> Home(innerPadding, scrollState)
+                         Screens.Home -> Home(innerPadding, scrollState, applicationContext)
+                         Screens.Search -> Search(innerPadding, scrollState, applicationContext)
                          Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
                          Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
                          //Screens.Statistics -> Statistics(innerPadding, scrollState)
