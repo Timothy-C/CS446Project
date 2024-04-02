@@ -322,7 +322,7 @@ fun CalendarGrid(
     onDateSelected: (selectedDate: Calendar) -> Unit,
     isWithinSelectedWeek: (date: Calendar) -> Boolean
 ) {
-    val daysOfWeek = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
+    val daysOfWeek = listOf("S", "M", "T", "W", "T", "F", "S")
     val daysInMonth = getDaysInMonth(selectedDate)
     val firstDayOfMonth = getFirstDayOfMonth(selectedDate)
     val startingOffset = firstDayOfMonth - 1
