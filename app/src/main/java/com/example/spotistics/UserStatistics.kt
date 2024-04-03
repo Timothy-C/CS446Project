@@ -49,8 +49,79 @@ import java.text.DateFormatSymbols
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.math.ceil
+import kotlin.random.Random
 
 
+
+val targetStartDate = Calendar.getInstance().apply {
+    set(2024, Calendar.MARCH, 17)
+}
+// Mock functions for API calls
+fun getTopSongs(startDate: Calendar, endDate: Calendar): List<String> {
+    // Implement logic to fetch top songs data from API based on selected week
+    val songs = listOf("Lover", "Cruel Summer", "Paradise", "Dandelions", "Demons", "Photograph", "Fix You", "Happier")
+
+    val shuffledSongs = songs.shuffled(Random.Default) // Shuffle the list of artists
+    val selectedSongs = mutableListOf<String>()
+
+    if ("Cruel Summer" in shuffledSongs) {
+        selectedSongs.add("Cruel Summer")
+        shuffledSongs.filterNot { it == "Taylor Swift" } // Remove "Taylor Swift" from the shuffled list
+            .take(4) // Take the next 4 elements from the shuffled list
+            .forEach { selectedSongs.add(it) } // Add them to the selected list
+    }
+    return selectedSongs
+}
+
+fun getTopArtists(startDate: Calendar, endDate: Calendar): List<String> {
+    // Implement logic to fetch top artists data from API based on selected week
+    val artists = listOf("Taylor Swift", "Shawn Mendes", "Coldplay", "Ed Sheeran", "Imagine Dragons", "Ariana Grande", "Justin Bieber", "Joji", "Olivia Rodrigo")
+
+    val shuffledArtists = artists.shuffled(Random.Default) // Shuffle the list of artists
+    val selectedArtists = mutableListOf<String>()
+
+    // Ensure "Taylor Swift" is in the selected list
+    if ("Taylor Swift" in shuffledArtists) {
+        selectedArtists.add("Taylor Swift")
+        shuffledArtists.filterNot { it == "Taylor Swift" } // Remove "Taylor Swift" from the shuffled list
+            .take(4) // Take the next 4 elements from the shuffled list
+            .forEach { selectedArtists.add(it) } // Add them to the selected list
+    }
+
+    return selectedArtists
+}
+
+fun getMinutesListened(startDate: Calendar, endDate: Calendar): Int {
+    // Implement logic to fetch minutes listened data from API based on selected week
+    return Random.nextInt(500, 999)
+
+}
+
+fun getSongsListened(startDate: Calendar, endDate: Calendar): Int {
+    // Implement logic to fetch songs listened data from API based on selected week
+    return Random.nextInt(120, 250)
+}
+
+fun getGenre(startDate: Calendar, endDate: Calendar): String {
+    // Implement logic to fetch genre data from API based on selected week
+    return "Pop"
+}
+
+// data class to represent a preference
+data class Preference(
+    val name: String,
+    val value: Int
+)
+
+val preferences = listOf(
+    Preference("Acousticness", 7),
+    Preference("Danceability", 8),
+    Preference("Energy", 6),
+    Preference("Instrumentalness", 4),
+    Preference("Liveness", 5),
+    Preference("Popularity", 7),
+    Preference("Speechiness", 5)
+)
 
 @Composable
 // Function to get the default week label
@@ -79,10 +150,37 @@ fun getDefaultWeekLabel(calendar: Calendar, selectedDate: Calendar?): String {
     }
 }
 
+fun getDefaultWeekDates(calendar: Calendar): Pair<Calendar, Calendar> {
+    // Clone the provided calendar to avoid modifying its state
+    val currentCalendar = calendar.clone() as Calendar
+
+    // Set the end date to the most recent Saturday
+    val endDate = currentCalendar.clone() as Calendar
+    while (endDate.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+        endDate.add(Calendar.DAY_OF_WEEK, 1)
+    }
+
+    // Set the start date to the previous Sunday
+    val startDate = endDate.clone() as Calendar
+    startDate.add(Calendar.DAY_OF_WEEK, -6)
+
+    return Pair(startDate, endDate)
+}
+
 @Composable
 fun Statistics() {
     var selectedWeek by remember { mutableStateOf(Calendar.getInstance()) }
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
+
+    val calendar = Calendar.getInstance()
+    val (startDate, endDate) = getDefaultWeekDates(calendar)
+
+    // API calls to fetch data based on selected week
+    val topSongs = remember { getTopSongs(startDate, endDate) }
+    val topArtists = remember { getTopArtists(startDate, endDate) }
+//    val minutesListened = remember { getMinutesListened(startDate, endDate) }
+//    val songsListened = remember { getSongsListened(startDate, endDate) }
+    val genre = remember { getGenre(startDate, endDate) }
 
     LazyColumn(
         modifier = Modifier
@@ -164,7 +262,8 @@ fun Statistics() {
                     }
                     TopItemsSection(
                         title = "Top Songs",
-                        items = listOf("Cruel Summer", "Glimpse of Us", "Demons", "Lover", "Thunder"),
+                        items = getTopSongs(startDate, endDate),
+//                        items = listOf("Cruel Summer", "Glimpse of Us", "Demons", "Lover", "Thunder"),
                         titleFontSize = 20.sp,
                         titleFontFamily = quicksandFamily
                     )
@@ -188,7 +287,8 @@ fun Statistics() {
                     }
                     TopItemsSection(
                         title = "Top Artists",
-                        items = listOf("Taylor Swift", "Imagine Dragons", "Justin Bieber", "Dua Lipa", "Joji"),
+                        items = getTopArtists(startDate, endDate),
+//                        items = listOf("Taylor Swift", "Imagine Dragons", "Justin Bieber", "Dua Lipa", "Joji"),
                         titleFontSize = 20.sp,
                         titleFontFamily = quicksandFamily
                     )
@@ -211,12 +311,14 @@ fun Statistics() {
 
         item {
             // Values for Minutes Listened, Songs Listened, and Top Genre
+            val minutesListened = remember { getMinutesListened(startDate, endDate) }
+            val songsListened = remember { getSongsListened(startDate, endDate) }
             Row(
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "521 minutes", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Minutes Listened
-                Text(text = "180 songs", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Songs Listened
+                Text(text = "$minutesListened minutes", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Minutes Listened
+                Text(text = "$songsListened songs", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Songs Listened
             }
         }
 
@@ -236,7 +338,7 @@ fun Statistics() {
                 modifier = Modifier.fillMaxWidth(),
                 horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text(text = "Pop", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Top Genre
+                Text(text = "$genre", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Top Genre
             }
         }
 
@@ -252,24 +354,14 @@ fun Statistics() {
             )
         }
 
-        val items = listOf(
-            "Acousticness" to 7,
-            "Danceability" to 8,
-            "Energy" to 6,
-            "Instrumentalness" to 4,
-            "Liveness" to 5,
-            "Popularity" to 7,
-            "Speechiness" to 5
-        )
-
-        items.forEach { (itemName, value) ->
+        preferences.forEach { preference ->
             item {
-                // Item name
+                // Preference name
                 Column(
                     modifier = Modifier.fillMaxWidth()
                 ) {
                     Text(
-                        text = itemName,
+                        text = preference.name,
                         color = Color.White,
                         fontSize = 16.sp,
                         fontFamily = quicksandFamily,
@@ -283,7 +375,7 @@ fun Statistics() {
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Slider(
-                            value = value.toFloat(),
+                            value = preference.value.toFloat(),
                             onValueChange = { /* Handle value change */ },
                             valueRange = 1f..10f,
                             steps = 9,
