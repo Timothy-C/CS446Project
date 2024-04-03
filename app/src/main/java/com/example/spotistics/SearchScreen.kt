@@ -1,10 +1,10 @@
 package com.example.spotistics
 
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -12,8 +12,11 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.Card
+import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
@@ -32,17 +35,20 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotistics.ui.theme.Purple
 import com.example.spotistics.ui.theme.quicksandFamily
-import kotlinx.coroutines.DelicateCoroutinesApi
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
-import kotlinx.coroutines.launch
 
-@OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun Search(innerPadding: PaddingValues, colScrollState: LazyListState) {
+fun Search(innerPadding: PaddingValues, colScrollState: LazyListState, onItemClick: (NavigationItem) -> Unit) {
     val albumText = remember { mutableStateOf(TextFieldValue()) }
     val artistText = remember { mutableStateOf(TextFieldValue()) }
-    val songText = remember { mutableStateOf(TextFieldValue()) }
+    val genreText = remember { mutableStateOf(TextFieldValue()) }
+    val yearStartText = remember { mutableStateOf(TextFieldValue()) }
+    val yearEndText = remember { mutableStateOf(TextFieldValue()) }
+
+    val searchButton = NavigationItem(
+        id = "results",
+        title = "results",
+        icon = Icons.Default.Search
+    )
 
     LazyColumn(
         state = colScrollState,
@@ -105,7 +111,7 @@ fun Search(innerPadding: PaddingValues, colScrollState: LazyListState) {
         }
         item {
             Text(
-                text = "Song",
+                text = "Genre",
                 modifier = Modifier.fillMaxWidth(),
                 textAlign = TextAlign.Start,
                 color = Color.White,
@@ -114,9 +120,65 @@ fun Search(innerPadding: PaddingValues, colScrollState: LazyListState) {
                 fontWeight = FontWeight.Normal
             )
             TextField(
-                value = songText.value,
+                value = genreText.value,
                 onValueChange = {
-                    songText.value = it
+                    genreText.value = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                textStyle = TextStyle(fontSize = 20.sp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+        item {
+            Text(
+                text = "Year Start",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start,
+                color = Color.White,
+                fontSize = 23.sp,
+                fontFamily = quicksandFamily,
+                fontWeight = FontWeight.Normal
+            )
+            TextField(
+                value = yearStartText.value,
+                onValueChange = {
+                    yearStartText.value = it
+                },
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 4.dp),
+                shape = RoundedCornerShape(10.dp),
+                colors = TextFieldDefaults.colors(
+                    focusedIndicatorColor = Color.Transparent,
+                    unfocusedIndicatorColor = Color.Transparent,
+                    disabledIndicatorColor = Color.Transparent,
+                ),
+                textStyle = TextStyle(fontSize = 20.sp)
+            )
+            Spacer(modifier = Modifier.height(10.dp))
+        }
+        item {
+            Text(
+                text = "Year End",
+                modifier = Modifier.fillMaxWidth(),
+                textAlign = TextAlign.Start,
+                color = Color.White,
+                fontSize = 23.sp,
+                fontFamily = quicksandFamily,
+                fontWeight = FontWeight.Normal
+            )
+            TextField(
+                value = yearEndText.value,
+                onValueChange = {
+                    yearEndText.value = it
                 },
                 modifier = Modifier
                     .fillMaxWidth()
@@ -134,33 +196,33 @@ fun Search(innerPadding: PaddingValues, colScrollState: LazyListState) {
         item {
             Spacer(modifier = Modifier.height(30.dp))
             Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .fillMaxHeight(),
+                modifier = Modifier.fillMaxWidth(),
                 verticalArrangement = Arrangement.Center,
                 horizontalAlignment = Alignment.CenterHorizontally
             ) {
-                Button(
+                Card(
                     modifier = Modifier
                         .height(40.dp)
-                        .width(120.dp),
-                    onClick = {
-                        GlobalScope.launch(Dispatchers.IO) {
-                            getAccessToken()
-                        }
-                    },
-                    colors = ButtonDefaults.buttonColors(
+                        .width(120.dp)
+                        .align(Alignment.CenterHorizontally)
+                        .clickable {
+                            onItemClick(searchButton)
+                        },
+                    colors = CardDefaults.cardColors(
                         containerColor = Purple
                     ),
-                    elevation = ButtonDefaults.elevatedButtonElevation(8.dp),
+                    elevation = CardDefaults.elevatedCardElevation(10.dp),
                     shape = MaterialTheme.shapes.medium,
                     border = ButtonDefaults.outlinedButtonBorder
                 ) {
                     Text(
+                        modifier = Modifier.padding(28.dp, 7.dp, 0.dp, 0.dp),
                         text = "Search",
+                        textAlign = TextAlign.Center,
                         fontSize = 19.sp,
                         fontFamily = quicksandFamily,
-                        fontWeight = FontWeight.Normal
+                        fontWeight = FontWeight.Normal,
+                        color = Color.White
                     )
                 }
             }

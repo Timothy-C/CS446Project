@@ -77,7 +77,7 @@ fun Login(navController: NavHostController, link: () -> Unit) {
                     Button(
                         colors = signInColors,
                         onClick = {
-                            link()
+                            //link()
                             navController.navigate("home")
                         },
                         modifier = Modifier.size(width = 350.dp, height = 50.dp),
