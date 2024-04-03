@@ -27,7 +27,7 @@ import com.example.spotistics.ui.theme.quicksandFamily
 
 
 @Composable
-fun Login(navController: NavHostController) {
+fun Login(navController: NavHostController, link: () -> Unit) {
     val signInColors = ButtonColors(
         containerColor = Color.Green,
         contentColor = Color.Green,
@@ -74,6 +74,7 @@ fun Login(navController: NavHostController) {
                     Button(
                         colors = signInColors,
                         onClick = {
+                            link()
                             navController.navigate("home")
                         },
                         modifier = Modifier.size(width = 350.dp, height = 50.dp),

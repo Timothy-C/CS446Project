@@ -1,5 +1,6 @@
 package com.example.spotistics
 
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Build
@@ -83,7 +84,6 @@ object Screens {
 
 class MainActivity : AppCompatActivity() {
     private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
-//    private val redirectUri = "http://localhost:3000/auth/callback"
     private val mOkHttpClient = OkHttpClient()
     private var mAccessToken: String? = null
     private var mAccessCode: String? = null
@@ -95,14 +95,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             actionBar?.hide()
-            Navigation()
+            Navigation {
+                onRequestTokenClicked(null)
+            }
         }
-//        setContentView(R.layout.activity_main)
-//        supportActionBar!!.title = String.format(
-//            Locale.US,
-//            "Spotify Auth %s",
-//            BuildConfig.LIB_VERSION_NAME
-//        )
     }
 
     override fun onDestroy() {
@@ -146,19 +142,21 @@ class MainActivity : AppCompatActivity() {
 
     fun onRequestCodeClicked(view: View?) {
         val request = getAuthenticationRequest(AuthorizationResponse.Type.CODE)
+        println("req" + request);
         AuthorizationClient.openLoginActivity(this, AUTH_CODE_REQUEST_CODE, request)
     }
 
     fun onRequestTokenClicked(view: View?) {
         val request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN)
+        println("req" + request);
         AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
     }
 
     private fun getAuthenticationRequest(type: AuthorizationResponse.Type): AuthorizationRequest {
-        return AuthorizationRequest.Builder(CLIENT_ID, type, redirectUri.toString())
+//        println("Xx" + redirectUri.toString()); // save access token to device somewhere
+        return AuthorizationRequest.Builder(CLIENT_ID, type, "spotistics://auth") //spotistics://auth") //"http://localhost/") //redirectUri.toString())
             .setShowDialog(false)
-            .setScopes(arrayOf("user-read-email"))
-            .setCampaign("your-campaign-token")
+            .setScopes(arrayOf("user-top-read", "user-read-recently-played", "user-read-email", "user-read-private"))
             .build()
     }
 
@@ -170,9 +168,28 @@ class MainActivity : AppCompatActivity() {
         }
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
             mAccessToken = response.accessToken
+
+            // write to res/values
+            val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+            with (sharedPref.edit()) {
+                putString(getString(R.string.token), mAccessToken)
+                apply()
+            }
+
+            println("maccesstoken " + mAccessToken)
+
             updateTokenView()
         } else if (requestCode == AUTH_CODE_REQUEST_CODE) {
             mAccessCode = response.code
+            println("req code" + response.state + response.expiresIn)
+
+            val sharedPref = getPreferences(Context.MODE_PRIVATE) ?: return
+            with (sharedPref.edit()) {
+                putString(getString(R.string.token), mAccessCode)
+                apply()
+            }
+
+            println("maccesscode " + mAccessCode)
             updateCodeView()
         }
     }
@@ -202,14 +219,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private val redirectUri: Uri
-        private get() = Uri.Builder()
-            .scheme(getString(R.string.com_spotify_sdk_redirect_scheme))
-            .authority(getString(R.string.com_spotify_sdk_redirect_host))
-            .build()
-
     companion object {
-        const val CLIENT_ID = "dcb7c8ef25dd48c2b832fd73164d9f4c"
+        const val CLIENT_ID = "99c4249a81b040bfac0b3146288a64b7"
         const val AUTH_TOKEN_REQUEST_CODE = 0x10
         const val AUTH_CODE_REQUEST_CODE = 0x11
     }
@@ -217,11 +228,11 @@ class MainActivity : AppCompatActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation() {
+fun Navigation(link: () -> Unit) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            Login(navController)
+            Login(navController, link)
         }
         composable("home") {
             MainNavigation(navController)
