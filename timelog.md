@@ -50,8 +50,8 @@
 
 |2024/04/01|-----|-------|--------|4----|-------|--------| Added Retrofit API calls and some set up for passing API responses to the corresponding screens, as well as debugging unsuccessful responses
 
-|2024/04/01|-----|-------|--------|-----|1------|--------| Update documentation to describe usage of all endpoints and error codes
+|2024/04/01|-----|-------|--------|-----|8------|--------| Update documentation to describe usage of all endpoints and error codes. Resolved deployment issues. Created database tables and security.
 
 |2024/04/01|4----|4------|4-------|4----|4------|4-------| Begin integrating API with application
 
-|2024/04/01|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
+|2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
