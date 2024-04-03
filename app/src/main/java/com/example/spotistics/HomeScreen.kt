@@ -250,11 +250,3 @@ fun Home(innerPadding: PaddingValues, colScrollState: LazyListState) {
     }
 }
 
-@Preview
-@Composable
-fun HomePreview() {
-    val innerPadding = PaddingValues(0.dp)
-    val lazyListState = rememberLazyListState()
-    Home(innerPadding, lazyListState)
-}
-

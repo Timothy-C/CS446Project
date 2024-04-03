@@ -143,6 +143,7 @@ fun MainNavigation(viewModel: MainViewModel, navController: NavHostController) {
                          Screens.Home -> Home(innerPadding, scrollState)
                          Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
                          Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
+                         Screens.Statistics -> Statistics()
                          //Screens.Statistics -> Statistics(innerPadding, scrollState)
                          Screens.History -> History(viewModel, innerPadding, scrollState)
                          Screens.Settings -> Settings(innerPadding, scrollState)
