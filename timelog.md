@@ -10,9 +10,13 @@
 
 |2024/02/21|-----|−−−−−−−|−−−−−−−−|1----|-------|--------| Setup top app bar, navigation, and home screen structure
 
+|2024/02/22|-----|−2.0−−−−|−−−−−−−−|-----|-------|--------| Create login page frontend
+
 |2024/02/23|-----|−−−−−−−|−−4.0-−−|−−−−−|-------|--------| Develop recommendations page
 
 |2024/02/26|-----|−−−−−−−|−-3.0-−−|−−−−−|-------|--------| Develop Throwbacks page, resolved error
+
+|2024/02/27|-----|−1.0−−−−|−−−−−−−−|-----|-------|--------| Create settings page frontend
 
 |2024/02/29|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|3.0----|--------| Implement authentication and session management API through Spotify's API and initialize app on Spotify Developer Platform
 
@@ -52,6 +56,12 @@
 
 |2024/04/01|-----|-------|--------|-----|8------|--------| Update documentation to describe usage of all endpoints and error codes. Resolved deployment issues. Created database tables and security.
 
+|2024/04/01|-----|4.0------|--------|-----|-------|--------| Understand how Spotify authentication works on android
+
+|2024/04/01|-----|7.0------|--------|-----|-------|--------| Add Spotify authentication to Login frontend
+
 |2024/04/01|4----|4------|4-------|4----|4------|4-------| Begin integrating API with application
 
 |2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
+
+|2024/04/02|-----|1.0------|--------|-----|-------|--------| Fix login bugs from merging changes
