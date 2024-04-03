@@ -1,3 +1,4 @@
+
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -56,7 +57,6 @@ android {
 }
 
 dependencies {
-//    implementation("androidx.compose.foundation:foundation-desktop:1.6.4")
     val nav_version = "2.7.7"
     implementation("androidx.browser:browser:1.2.0")
 
@@ -75,6 +75,8 @@ dependencies {
     implementation(files("../libs/spotify-auth-release-2.1.0.aar"))
     implementation(files("../libs/spotify-app-remote-release-0.8.0.aar"))
     implementation("androidx.navigation:navigation-compose:$nav_version")
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")

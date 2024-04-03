@@ -6,6 +6,9 @@ import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -17,6 +20,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Button
 import androidx.compose.material.Icon
@@ -28,6 +32,7 @@ import androidx.compose.material.icons.filled.KeyboardArrowLeft
 import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
@@ -49,112 +54,150 @@ import androidx.compose.ui.unit.sp
 import com.example.spotistics.ui.theme.quicksandFamily
 import java.util.Calendar
 import java.util.Locale
+import java.text.DateFormatSymbols
+import java.text.SimpleDateFormat
+import java.util.*
 import kotlin.math.ceil
 
+
+
+@Composable
+// Function to get the default week label
+fun getDefaultWeekLabel(calendar: Calendar, selectedDate: Calendar?): String {
+    // Clone the provided calendar to avoid modifying its state
+    val currentCalendar = calendar.clone() as Calendar
+
+    // Set the end date to the most recent Saturday
+    val endDate = currentCalendar.clone() as Calendar
+    while (endDate.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+        endDate.add(Calendar.DAY_OF_WEEK, 1)
+    }
+
+    // Set the start date to the previous Sunday
+    val startDate = endDate.clone() as Calendar
+    startDate.add(Calendar.DAY_OF_WEEK, -6)
+
+    // Format the dates into a string
+    val startDateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+    val endDateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+    return if (selectedDate != null && selectedDate >= startDate && selectedDate <= endDate) {
+        val selectedDateFormat = SimpleDateFormat("MM/dd/yyyy", Locale.getDefault())
+        "Week of ${selectedDateFormat.format(selectedDate.time)}"
+    } else {
+        "${startDateFormat.format(startDate.time)} - ${endDateFormat.format(endDate.time)}"
+    }
+}
 
 @Composable
 fun Statistics() {
     var selectedWeek by remember { mutableStateOf(Calendar.getInstance()) }
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 
-    Column(
+    LazyColumn(
         modifier = Modifier
             .fillMaxSize()
             .padding(16.dp)
     ) {
-        // Top of the screen - "Listening Statistics"
-        Text(
-            text = "Listening Statistics",
-            color = Color.White,
-            fontSize = 30.sp,
-            fontFamily = quicksandFamily,
-            fontWeight = FontWeight.Light,
-            modifier = Modifier.padding(bottom = 16.dp)
-        )
-
-        // Horizontal box drop down menu for selecting week
-        Row(
-            verticalAlignment = Alignment.CenterVertically,
-            modifier = Modifier.fillMaxWidth()
-        ) {
+        item {
+            // Top of the screen - "Listening Statistics"
             Text(
-                text = "Select Week",
-                fontSize = 20.sp,
+                text = "Listening Statistics",
+                color = Color.White,
+                fontSize = 30.sp,
                 fontFamily = quicksandFamily,
                 fontWeight = FontWeight.Light,
-                color = Color.White,
-                modifier = Modifier.clickable { isDropDownMenuExpanded = !isDropDownMenuExpanded }
+                modifier = Modifier.padding(bottom = 16.dp)
             )
+        }
 
-            if (isDropDownMenuExpanded) {
-                // Dropdown menu with calendar
-                WeekSelectionDropDown(
-                    initialSelectedDate = selectedWeek,
-                    onWeekSelected = { startDate, endDate ->
-                        // Handle selected week
-                        selectedWeek = startDate // For demonstration, you can update the selectedWeek here
-                        isDropDownMenuExpanded = false
-                    },
-                    onDismiss = { isDropDownMenuExpanded = false }
+        val today = Calendar.getInstance()
+        val mostRecentSaturday = today.clone() as Calendar
+        while (mostRecentSaturday.get(Calendar.DAY_OF_WEEK) != Calendar.SATURDAY) {
+            mostRecentSaturday.add(Calendar.DAY_OF_WEEK, -1)
+        }
+
+        item {
+            // Horizontal box drop down menu for selecting week
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                modifier = Modifier.fillMaxWidth()
+            ) {
+                Text(
+                    text = getDefaultWeekLabel(selectedWeek, mostRecentSaturday), // Pass null as selectedDate
+                    fontSize = 20.sp,
+                    fontFamily = quicksandFamily,
+                    fontWeight = FontWeight.Light,
+                    color = Color.White,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .clickable { isDropDownMenuExpanded = !isDropDownMenuExpanded }
+                        .weight(1f)
                 )
+                if (isDropDownMenuExpanded) {
+                    // Dropdown menu with calendar
+                    WeekSelectionDropDown(
+                        initialSelectedDate = selectedWeek,
+                        onWeekSelected = { startDate, endDate ->
+                            // Handle selected week
+                            selectedWeek = startDate // For demonstration, you can update the selectedWeek here
+                            isDropDownMenuExpanded = false
+                        },
+                        onDismiss = { isDropDownMenuExpanded = false },
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
 
-
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
-        ) {
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(end = 4.dp)
+        item {
+            // Top 5 songs and Top 5 artists
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(16.dp)
             ) {
-                // Column for top song
+                // Top 5 songs
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.weight(1f)
                 ) {
-                    // Image of the top song, shrink to half size
-                    Image(
-                        painter = painterResource(id = R.drawable.taylor_swift),
-                        contentDescription = null,
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp) // Adjust the height to half of the original size
-                    )
-                    // Top 5 songs
+                            .padding(4.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.taylor_swift),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp) // Adjust the height to half of the original size
+                        )
+                    }
                     TopItemsSection(
                         title = "Top Songs",
-                        items = listOf("Song 1", "Song 2", "Song 3", "Song 4", "Song 5"),
+                        items = listOf("Cruel Summer", "Glimpse of Us", "Demons", "Lover", "Thunder"),
                         titleFontSize = 20.sp,
                         titleFontFamily = quicksandFamily
                     )
                 }
-            }
 
-            Box(
-                modifier = Modifier
-                    .weight(1f)
-                    .padding(start = 4.dp)
-            ) {
-                // Column for top artist
+                // Top 5 artists
                 Column(
-                    modifier = Modifier
-                        .fillMaxWidth()
+                    modifier = Modifier.weight(1f)
                 ) {
-                    // Image of the top artist, shrink to half size
-                    Image(
-                        painter = painterResource(id = R.drawable.taylor_swift),
-                        contentDescription = null,
+                    Box(
                         modifier = Modifier
-                            .fillMaxWidth()
-                            .height(100.dp) // Adjust the height to half of the original size
-                    )
-                    // Top 5 artists
+                            .padding(4.dp)
+                    ) {
+                        Image(
+                            painter = painterResource(id = R.drawable.taylor_swift),
+                            contentDescription = null,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .height(100.dp) // Adjust the height to half of the original size
+                        )
+                    }
                     TopItemsSection(
                         title = "Top Artists",
-                        items = listOf("Artist 1", "Artist 2", "Artist 3", "Artist 4", "Artist 5"),
+                        items = listOf("Taylor Swift", "Imagine Dragons", "Justin Bieber", "Dua Lipa", "Joji"),
                         titleFontSize = 20.sp,
                         titleFontFamily = quicksandFamily
                     )
@@ -162,50 +205,61 @@ fun Statistics() {
             }
         }
 
-        // Minutes Listened
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "Minutes Listened", color = Color.White, fontSize = 20.sp, fontFamily = quicksandFamily)
-            Text(text = "Songs Listened", color = Color.White, fontSize = 20.sp, fontFamily = quicksandFamily)
+
+        item {
+            // Minutes Listened
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = "Minutes Listened", color = Color.White, fontSize = 20.sp, fontFamily = quicksandFamily)
+                Text(text = "Songs Listened", color = Color.White, fontSize = 20.sp, fontFamily = quicksandFamily)
+            }
         }
 
-        // Values for Minutes Listened, Songs Listened, and Top Genre
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "7,000 minutes", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Minutes Listened
-            Text(text = "220 songs", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Songs Listened
+        item {
+            // Values for Minutes Listened, Songs Listened, and Top Genre
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "521 minutes", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Minutes Listened
+                Text(text = "180 songs", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Songs Listened
+            }
         }
 
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically
-        ) {
-            Text(text = "Top Genre", color = Color.White, fontSize = 20.sp, fontFamily = quicksandFamily)
+        item {
+            // Top Genre
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "Top Genre", color = Color.White, fontSize = 20.sp, fontFamily = quicksandFamily)
+            }
         }
 
-        // Values for Minutes Listened, Songs Listened, and Top Genre
-        Row(
-            modifier = Modifier.fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            Text(text = "Pop", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Top Genre
+        item {
+            // Top Genre
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+                Text(text = "Pop", color = Color.White, fontSize = 16.sp, fontFamily = quicksandFamily) // Top Genre
+            }
         }
 
-        // Subheading - "My Preferences"
-        Text(
-            text = "My Preferences",
-            color = Color.White,
-            fontSize = 24.sp,
-            fontFamily = quicksandFamily,
-            fontWeight = FontWeight.Light,
-            modifier = Modifier.padding(top = 16.dp)
-        )
+        item {
+            // Subheading - "My Preferences"
+            Text(
+                text = "My Preferences",
+                color = Color.White,
+                fontSize = 24.sp,
+                fontFamily = quicksandFamily,
+                fontWeight = FontWeight.Light,
+                modifier = Modifier.padding(top = 16.dp)
+            )
+        }
 
         val items = listOf(
             "Acousticness" to 7,
@@ -217,58 +271,36 @@ fun Statistics() {
             "Speechiness" to 5
         )
 
-//        val scrollState = rememberScrollState()
+        items.forEach { (itemName, value) ->
+            item {
+                // Item name
+                Column(
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text(
+                        text = itemName,
+                        color = Color.White,
+                        fontSize = 16.sp,
+                        fontFamily = quicksandFamily,
+                        fontWeight = FontWeight.Light,
+                        modifier = Modifier.padding(horizontal = 8.dp)
+                    )
 
-        Box(
-            modifier = Modifier
-                .fillMaxWidth()
-                .fillMaxHeight()
-                .padding(8.dp)
-//                .verticalScroll(scrollState)
-        ) {
-            Column(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(top = 4.dp)
-            ) {
-                items.forEach { (itemName, value) ->
-                    Column(
-                        modifier = Modifier.fillMaxWidth()
+                    // Slider
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        verticalAlignment = Alignment.CenterVertically
                     ) {
-                        // Item name
-                        Text(
-                            text = itemName,
-                            color = Color.White,
-                            fontSize = 16.sp,
-                            fontFamily = quicksandFamily,
-                            fontWeight = FontWeight.Light,
-                            modifier = Modifier.padding(horizontal = 8.dp)
+                        Slider(
+                            value = value.toFloat(),
+                            onValueChange = { /* Handle value change */ },
+                            valueRange = 1f..10f,
+                            steps = 9,
+                            modifier = Modifier.weight(1f)
                         )
-
-                        // Slider
-                        Row(
-                            modifier = Modifier.fillMaxWidth(),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Slider(
-                                value = value.toFloat(),
-                                onValueChange = { /* Handle value change */ },
-                                valueRange = 1f..10f,
-                                steps = 9,
-                                modifier = Modifier.weight(1f)
-                            )
-                        }
                     }
                 }
             }
-
-
-            // Vertical scrollbar
-//            val scrollbarAdapter = rememberScrollbarAdapter(scrollState)
-//            VerticalScrollbar(
-//                adapter = scrollbarAdapter,
-//                modifier = Modifier.fillMaxHeight()
-//            )
         }
     }
 }
@@ -323,7 +355,6 @@ fun CalendarGrid(
     onDateSelected: (selectedDate: Calendar) -> Unit,
     isWithinSelectedWeek: (date: Calendar) -> Boolean
 ) {
-    val daysOfWeek = listOf("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat")
     val daysInMonth = getDaysInMonth(selectedDate)
     val firstDayOfMonth = getFirstDayOfMonth(selectedDate)
     val startingOffset = firstDayOfMonth - 1
@@ -333,19 +364,6 @@ fun CalendarGrid(
 
     // Display the calendar grid
     Column {
-        // Days of the week headers
-        Row(horizontalArrangement = Arrangement.SpaceEvenly) {
-            for (day in daysOfWeek) {
-                Text(
-                    text = day,
-                    fontWeight = FontWeight.Bold,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(4.dp),
-                    textAlign = TextAlign.Center
-                )
-            }
-        }
 
         // Calendar grid cells
         for (row in 0 until numRows) {
@@ -363,17 +381,26 @@ fun CalendarGrid(
                             modifier = Modifier
                                 .padding(4.dp)
                                 .size(40.dp)
-                                .clip(CircleShape)
                                 .background(if (isSelectedDay) Color.Green else Color.Transparent)
                                 .clickable { onDateSelected(cal) },
                             contentAlignment = Alignment.Center
                         ) {
-                            Text(
-                                text = day.toString(),
-                                color = if (isSelectedDay) Color.White else if (isWithinSelectedWeek) Color.Black else Color.Gray,
-                                textAlign = TextAlign.Center,
-                                fontWeight = FontWeight.Bold
-                            )
+                            Box(
+                                modifier = Modifier
+                                    .size(30.dp)
+                                    .clip(CircleShape)
+                                    .background(Color.Transparent)
+                                    .border(2.dp, Color.White, CircleShape),
+                                contentAlignment = Alignment.Center
+                            ) {
+                                // Text inside the circle
+                                Text(
+                                    text = day.toString(),
+                                    color = if (isSelectedDay) Color.White else if (isWithinSelectedWeek) Color.Black else Color.Gray,
+                                    textAlign = TextAlign.Center,
+                                    fontWeight = FontWeight.Bold
+                                )
+                            }
                         }
                     } else {
                         // Empty cell for offset days
@@ -385,6 +412,9 @@ fun CalendarGrid(
     }
 }
 
+
+
+
 @Composable
 fun WeekSelectionDropDown(
     initialSelectedDate: Calendar,
@@ -394,36 +424,56 @@ fun WeekSelectionDropDown(
 ) {
     var selectedStartDate by remember { mutableStateOf(initialSelectedDate) }
     var selectedEndDate by remember { mutableStateOf(initialSelectedDate.clone() as Calendar) }
+    var monthAndYearText by remember { mutableStateOf("") }
+    var showDialog by remember { mutableStateOf(false) }
 
     // Function to update selected week range and dismiss the dropdown
     fun selectWeekAndDismiss() {
-        onWeekSelected(selectedStartDate, selectedEndDate)
-        onDismiss()
+        if (selectedStartDate <= Calendar.getInstance()) {
+            onWeekSelected(selectedStartDate, selectedEndDate)
+            onDismiss()
+        } else {
+            showDialog = true
+        }
+    }
+
+    // Function to update the month and year display
+    fun updateMonthAndYearDisplay(selectedStartDate: Calendar) {
+        // Manually update the month and year display
+        selectedStartDate.apply {
+            val monthName = getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())
+            val year = get(Calendar.YEAR)
+            monthAndYearText = "$monthName $year"
+        }
+    }
+
+    // Initialize month and year display
+    LaunchedEffect(Unit) {
+        updateMonthAndYearDisplay(initialSelectedDate)
     }
 
     // Function to navigate to previous month
     fun navigateToPreviousMonth() {
         selectedStartDate.add(Calendar.MONTH, -1)
         selectedEndDate = selectedStartDate.clone() as Calendar
+        updateMonthAndYearDisplay(selectedStartDate)
     }
 
     // Function to navigate to next month
     fun navigateToNextMonth() {
         selectedStartDate.add(Calendar.MONTH, 1)
         selectedEndDate = selectedStartDate.clone() as Calendar
+        updateMonthAndYearDisplay(selectedStartDate)
     }
 
-    // Function to highlight the entire week when a day is selected
-    fun highlightWeek(selectedDate: Calendar) {
-        selectedStartDate = selectedDate.clone() as Calendar
-        selectedStartDate.set(Calendar.DAY_OF_WEEK, Calendar.SUNDAY)
-        selectedEndDate = selectedDate.clone() as Calendar
-        selectedEndDate.set(Calendar.DAY_OF_WEEK, Calendar.SATURDAY)
-    }
-
-    // Function to check if a given date is within the selected week range
-    fun isWithinSelectedWeek(date: Calendar): Boolean {
-        return date.timeInMillis in selectedStartDate.timeInMillis..selectedEndDate.timeInMillis
+    // Function to highlight the selected date
+    fun highlightSelectedDate(selectedDate: Calendar) {
+        if (selectedDate <= Calendar.getInstance()) {
+            selectedStartDate = selectedDate.clone() as Calendar
+            selectedEndDate = selectedDate.clone() as Calendar
+        } else {
+            showDialog = true
+        }
     }
 
     // Display the dropdown content
@@ -445,9 +495,8 @@ fun WeekSelectionDropDown(
             Text(
                 text = buildAnnotatedString {
                     withStyle(style = SpanStyle(fontWeight = FontWeight.Bold)) {
-                        append("${selectedStartDate.getDisplayName(Calendar.MONTH, Calendar.LONG, Locale.getDefault())} ")
+                        append(monthAndYearText)
                     }
-                    append(selectedStartDate.get(Calendar.YEAR).toString())
                 }
             )
             IconButton(onClick = { navigateToNextMonth() }) {
@@ -455,18 +504,18 @@ fun WeekSelectionDropDown(
             }
         }
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(1.dp))
 
         // Calendar grid
         CalendarGrid(
             selectedDate = selectedStartDate,
             onDateSelected = { selectedDate ->
-                highlightWeek(selectedDate)
+                highlightSelectedDate(selectedDate)
             },
-            isWithinSelectedWeek = { date -> isWithinSelectedWeek(date) }
+            isWithinSelectedWeek = { date -> date.timeInMillis in selectedStartDate.timeInMillis..selectedEndDate.timeInMillis }
         )
 
-        Spacer(modifier = Modifier.height(16.dp))
+        Spacer(modifier = Modifier.height(1.dp))
 
         // Checkmark button
         Button(
@@ -475,128 +524,24 @@ fun WeekSelectionDropDown(
         ) {
             Text(text = "Done")
         }
+
+        // Dialog for future/current week date selection
+        if (showDialog) {
+            AlertDialog(
+                onDismissRequest = { showDialog = false },
+                title = { Text("Select a day in the past") },
+                confirmButton = {
+                    Button(
+                        onClick = { showDialog = false },
+                    ) {
+                        Text("Ok")
+                    }
+                }
+            )
+        }
     }
 }
 
-
-//@Composable
-//fun CalendarView(
-//    selectedDate: Calendar,
-//    onDateSelected: (Calendar) -> Unit,
-//    modifier: Modifier = Modifier
-//) {
-//    // Store the current selected date
-//    val currentSelectedDate = remember { mutableStateOf(selectedDate) }
-//
-//    // Function to handle selection of a date
-//    val onDateClick: (Calendar) -> Unit = { date ->
-//        currentSelectedDate.value = date
-//        onDateSelected(date)
-//    }
-//
-//    Column(
-//        modifier = modifier
-//    ) {
-//        // Display month and year on top
-//        Row(
-//            verticalAlignment = Alignment.CenterVertically,
-//            modifier = Modifier.padding(horizontal = 16.dp)
-//        ) {
-//            IconButton(
-//                onClick = { /* TODO: Navigate to previous month */ }
-//            ) {
-//                Icon(Icons.Default.ChevronLeft, contentDescription = "Previous Month")
-//            }
-//
-//            Text(
-//                text = "${DateFormatSymbols().months[currentSelectedDate.value.get(Calendar.MONTH)]}, ${currentSelectedDate.value.get(Calendar.YEAR)}",
-//                style = MaterialTheme.typography.subtitle1,
-//                modifier = Modifier.weight(1f)
-//            )
-//
-//            IconButton(
-//                onClick = { /* TODO: Navigate to next month */ }
-//            ) {
-//                Icon(Icons.Default.ChevronRight, contentDescription = "Next Month")
-//            }
-//        }
-//
-//        Spacer(modifier = Modifier.height(16.dp))
-//
-//        // Display the grid for the days of the week
-//        Row(
-//            horizontalArrangement = Arrangement.SpaceBetween,
-//            modifier = Modifier.padding(horizontal = 16.dp)
-//        ) {
-//            DateFormatSymbols().shortWeekdays
-//                .filterIndexed { index, _ -> index > 0 }
-//                .forEach { day ->
-//                    Text(
-//                        text = day,
-//                        style = MaterialTheme.typography.subtitle2
-//                    )
-//                }
-//        }
-//
-//        // Display the grid for the days of the month
-//        val daysInMonth = currentSelectedDate.value.getActualMaximum(Calendar.DAY_OF_MONTH)
-//        val firstDayOfMonth = currentSelectedDate.value.apply { set(Calendar.DAY_OF_MONTH, 1) }.get(Calendar.DAY_OF_WEEK)
-//        val totalDaysInGrid = daysInMonth + firstDayOfMonth - 1
-//
-//        var currentDay = 1
-//
-//        Column {
-//            repeat(6) { rowIndex ->
-//                Row(
-//                    modifier = Modifier.fillMaxWidth()
-//                ) {
-//                    repeat(7) { columnIndex ->
-//                        Box(
-//                            modifier = Modifier
-//                                .weight(1f)
-//                                .aspectRatio(1f)
-//                                .padding(4.dp)
-//                                .clickable {
-//                                    val selectedDay = currentSelectedDate.value.clone() as Calendar
-//                                    selectedDay.set(Calendar.DAY_OF_MONTH, currentDay)
-//                                    onDateClick(selectedDay)
-//                                },
-//                            contentAlignment = Alignment.Center
-//                        ) {
-//                            if (rowIndex == 0 && columnIndex < firstDayOfMonth - 1 ||
-//                                currentDay > totalDaysInGrid
-//                            ) {
-//                                // Empty cells before the first day of the month or after the last day of the month
-//                                // No need to display anything
-//                            } else {
-//                                // Display the day of the month
-//                                Text(
-//                                    text = if (currentDay <= daysInMonth) currentDay.toString() else "",
-//                                    style = MaterialTheme.typography.body1.copy(
-//                                        color = if (currentDay == selectedDate.get(Calendar.DAY_OF_MONTH))
-//                                            Color.White
-//                                        else
-//                                            Color.Black
-//                                    ),
-//                                    modifier = Modifier
-//                                        .padding(8.dp)
-//                                        .background(
-//                                            if (currentDay == selectedDate.get(Calendar.DAY_OF_MONTH))
-//                                                MaterialTheme.colors.primary
-//                                            else
-//                                                Color.Transparent,
-//                                            shape = CircleShape
-//                                        )
-//                                )
-//                                currentDay++
-//                            }
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//    }
-//}
 
 
 @Preview
@@ -604,81 +549,39 @@ fun WeekSelectionDropDown(
 fun ListeningStatisticsPreview() {
     Statistics()
 }
+@Preview
+@Composable
+fun CalendarGridPreview() {
+    val selectedDate = remember { Calendar.getInstance() }
 
-//@Preview
-//@Composable
-//fun CalendarPreview() {
-//    Box(
-//        modifier = Modifier
-//            .padding(16.dp)
-//            .background(Color.Gray)
-//    ) {
-//        val selectedDate = Calendar.getInstance()
-//        WeekSelectionDropDown(
-//            initialSelectedDate = selectedDate,
-//            onWeekSelected = { _, _ -> },
-//            onDismiss = {},
-//            modifier = Modifier.fillMaxSize()
-//        )
-//    }
-//}
+    CalendarGrid(
+        selectedDate = selectedDate,
+        onDateSelected = {},
+        isWithinSelectedWeek = { true } // Modify this based on your requirement
+    )
+}
 
+@Preview
+@Composable
+fun WeekSelectionDropDownPreview() {
+    val initialSelectedDate = Calendar.getInstance()
 
-//@Preview
-//@Composable
-//fun CalendarViewPreview() {
-//    // Initialize a Calendar instance with the current date
-//    val selectedDate = Calendar.getInstance()
-//
-//    // Display the CalendarView with the selectedDate
-//    CalendarView(selectedDate = selectedDate, onDateSelected = {})
-//}
+    // Define a sample onWeekSelected callback
+    val onWeekSelected: (startDate: Calendar, endDate: Calendar) -> Unit = { startDate, endDate ->
+        // Handle selected week
+        // For demonstration, you can log the selected start and end dates
+    }
 
-//@Composable
-//fun WeekSelectionDropDown(
-//    onDateSelected: (Calendar) -> Unit,
-//    selectedDate: Calendar
-//) {
-//    var isDropDownMenuExpanded by remember { mutableStateOf(false) }
-//    var selectedWeek by remember { mutableStateOf(Calendar.getInstance()) }
-//
-//    Row(
-//        verticalAlignment = Alignment.CenterVertically,
-//        modifier = Modifier.fillMaxWidth()
-//    ) {
-//        ClickableText(
-//            text = buildAnnotatedString {
-//                withStyle(
-//                    style = TextStyle(
-//                        color = Color.White,
-//                        fontSize = 20.sp,
-//                        fontFamily = quicksandFamily,
-//                        fontWeight = FontWeight.Light
-//                    )
-//                ) {
-//                    append("Select Week")
-//                }
-//            },
-//            onClick = { isDropDownMenuExpanded = !isDropDownMenuExpanded }
-//        )
-//
-//        if (isDropDownMenuExpanded) {
-//            // Dropdown menu with calendar
-////            Popup {
-////                CalendarView(selectedWeek) { newDate ->
-////                    selectedWeek = newDate
-////                    isDropDownMenuExpanded = false
-////                    onDateSelected(newDate)
-////                }
-////            }
-//            WeekSelectionDropDown(
-//                selectedDate = selectedWeek,
-//                onDateSelected = { newDate ->
-//                    selectedWeek = newDate
-//                    isDropDownMenuExpanded = false
-//                    onDateSelected(newDate)
-//                }
-//            )
-//        }
-//    }
-//}
+    // Define a sample onDismiss callback
+    val onDismiss: () -> Unit = {
+        // Handle dismiss action
+        // For demonstration, you can log the dismissal
+    }
+
+    // Preview the WeekSelectionDropDown with the provided sample data
+    WeekSelectionDropDown(
+        initialSelectedDate = initialSelectedDate,
+        onWeekSelected = onWeekSelected,
+        onDismiss = onDismiss
+    )
+}
