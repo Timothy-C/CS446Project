@@ -1,4 +1,3 @@
-
 plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
@@ -21,9 +20,8 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
-
-        manifestPlaceholders.put("redirectHostName", "auth")
-        manifestPlaceholders.put("redirectSchemeName", "spotistics")
+        manifestPlaceholders.put("redirectHostName", "YOURSCHEME")
+        manifestPlaceholders.put("redirectSchemeName", "YOURSCHEME")
     }
 
     buildTypes {
@@ -58,8 +56,6 @@ android {
 
 dependencies {
     val nav_version = "2.7.7"
-    implementation("androidx.browser:browser:1.2.0")
-
     implementation ("io.coil-kt:coil-compose:1.3.2")
     implementation("androidx.core:core-ktx:1.12.0")
     implementation("androidx.appcompat:appcompat:1.6.1")

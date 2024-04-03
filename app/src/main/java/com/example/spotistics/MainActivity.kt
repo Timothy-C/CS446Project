@@ -2,7 +2,6 @@ package com.example.spotistics
 
 import android.content.Context
 import android.content.Intent
-import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.view.View
@@ -10,8 +9,8 @@ import android.widget.TextView
 import androidx.activity.compose.setContent
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -43,6 +42,7 @@ import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.input.nestedscroll.nestedScroll
 import androidx.compose.ui.platform.LocalLayoutDirection
@@ -75,6 +75,8 @@ import java.io.IOException
 
 object Screens {
     const val Home = "home"
+    const val Search = "search"
+    const val SearchResults = "results"
     const val Recommendations = "recs"
     const val Throwbacks = "throwbacks"
     const val Statistics = "stats"
@@ -94,7 +96,7 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            actionBar?.hide()
+            supportActionBar?.hide()
             Navigation {
                 onRequestTokenClicked(null)
             }
@@ -243,6 +245,7 @@ fun Navigation(link: () -> Unit) {
 @Composable
 fun MainNavigation(navController: NavHostController) {
     var route by remember {mutableStateOf(Screens.Home)}
+    var searchQuery by remember {mutableStateOf(hashMapOf<String,String>())}
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val appBarState = rememberTopAppBarState()
@@ -251,8 +254,9 @@ fun MainNavigation(navController: NavHostController) {
 
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Scaffold(
-            backgroundColor = Navy,
+            backgroundColor = Color.Transparent,
             modifier = Modifier
+                .background(Brush.verticalGradient(listOf(Navy, Color.Black)))
                 .nestedScroll(scrollBehavior.nestedScrollConnection),
             scaffoldState = scaffoldState,
             topBar = {
@@ -281,6 +285,8 @@ fun MainNavigation(navController: NavHostController) {
                 ) {
                     when (route) {
                          Screens.Home -> Home(innerPadding, scrollState)
+                         Screens.Search -> Search(innerPadding, scrollState, onItemClick = {route = it.id; /*searchQuery = it.data!!*/})
+                         Screens.SearchResults -> SearchResults(innerPadding, scrollState,/* searchQuery*/)
                          Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
                          Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
                          Screens.Statistics -> Statistics()
@@ -293,7 +299,7 @@ fun MainNavigation(navController: NavHostController) {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
+@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(
     onNavigationIconClick: () -> Unit,

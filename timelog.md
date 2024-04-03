@@ -1,6 +1,6 @@
-| Date     | Tim | Tracy | Hailey | Amy | Jason | Jessie | Task
+| Date | Tim | Tracy | Hailey | Amy | Jason | Jessie | Task
 
-|−−−−−−----|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|-------|--------| 
+|−−−−−−----|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|-------|--------|
 
 |2024/01/30|0.25−|−−−−−−−|−−−−−−−−|−−−−−|-------|--------| Setup readme and timelog
 
@@ -24,7 +24,9 @@
 
 |2024/03/02|-3---|−−−−−−−|−−−−−−−−|-----|-------|--------| Develop history page
 
-|2024/03/03|6----|6------|6-------|6----|6------|6-------| Merge all changes and prepare prototype with mocked responses and 
+|2024/03/03|6----|6------|6-------|6----|6------|6-------| Merge all changes and prepare prototype with mocked responses
+
+|2024/03/03|-----|-------|--------|3----|-------|--------| Made reformatting changes across the app screens to improve the UI and enforce a consistent theme
 
 |2024/03/10|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|6------|--------| Implement API endpoints for direct access to Spotify API information
 
@@ -34,10 +36,12 @@
 
 |2024/03/25|−−−−−|3−−−−−−|−−−−−−−−|−−−−−|3------|--------| Convert Spotify's authentication SDK sample code into Kotlin for reference in app
 
+|2024/03/25|-----|-------|--------|4----|-------|--------| Created the Search page, navigation to search results, and set up passing search query data between pages
+
 |2024/03/30|-----|-------|--------|-----|-------|4-------| Update Statistics Page to merge with main and new features
 
 |2024/03/31|-----|-------|--------|-----|-------|2-------| Added Scroll bar to display user preferences Statistics
 
 |2024/04/01|-----|-------|--------|-----|-------|3-------| Added Calendar to filter Statistics by week
 
-
+|2024/04/01|-----|-------|--------|4----|-------|--------| Added Retrofit API calls and some set up for passing API responses to the corresponding screens, as well as debugging unsuccessful responses

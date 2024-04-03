@@ -2,6 +2,7 @@ package com.example.spotistics
 
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -16,6 +17,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -36,7 +38,8 @@ fun Login(navController: NavHostController, link: () -> Unit) {
     )
 
     Scaffold(
-        backgroundColor = Navy,
+        backgroundColor = Color.Transparent,
+        modifier = Modifier.background(Brush.verticalGradient(listOf(Navy, Color.Black))),
         content = { innerPadding ->
             Column(
                 modifier = Modifier.padding(30.dp, 50.dp, 30.dp, 0.dp)
@@ -74,7 +77,7 @@ fun Login(navController: NavHostController, link: () -> Unit) {
                     Button(
                         colors = signInColors,
                         onClick = {
-                            link()
+                            //link()
                             navController.navigate("home")
                         },
                         modifier = Modifier.size(width = 350.dp, height = 50.dp),

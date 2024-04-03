@@ -21,6 +21,7 @@ import androidx.compose.material.icons.filled.Celebration
 import androidx.compose.material.icons.filled.FormatListNumbered
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.QueryStats
+import androidx.compose.material.icons.filled.Search
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SettingsBackupRestore
 import androidx.compose.runtime.Composable
@@ -41,7 +42,7 @@ data class NavigationItem (
     val id: String,
     val title: String,
     val icon: ImageVector,
-    val contentDescription: String
+    var data: HashMap<String,String>? = null
 )
 
 @Composable
@@ -52,37 +53,36 @@ fun NavigationDrawer(
         NavigationItem(
             id = "home",
             title = "Home",
-            contentDescription = "",
             icon = Icons.Default.Home
+        ),
+        NavigationItem(
+            id = "search",
+            title = "Search",
+            icon = Icons.Default.Search
         ),
         NavigationItem(
             id = "recs",
             title = "Recommendations",
-            contentDescription = "",
             icon = Icons.Default.FormatListNumbered
         ),
         NavigationItem(
             id = "throwbacks",
             title = "Throwbacks",
-            contentDescription = "",
             icon = Icons.Default.Celebration
         ),
         NavigationItem(
             id = "stats",
             title = "Statistics",
-            contentDescription = "",
             icon = Icons.Default.QueryStats
         ),
         NavigationItem(
             id = "history",
             title = "History",
-            contentDescription = "",
             icon = Icons.Default.SettingsBackupRestore
         ),
         NavigationItem(
             id = "settings",
             title = "Settings",
-            contentDescription = "",
             icon = Icons.Default.Settings
         ),
     )
@@ -107,7 +107,7 @@ fun NavigationDrawer(
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = "Mr. Goose",
+                            text = "446 project",
                             color = Color.Black,
                             fontSize = 40.sp,
                             fontFamily = quicksandFamily,
@@ -129,7 +129,7 @@ fun NavigationDrawer(
                 ) {
                     Icon(
                         imageVector = item.icon,
-                        contentDescription = item.contentDescription,
+                        contentDescription = "",
                         modifier = Modifier.size(25.dp)
                     )
                     Spacer(modifier = Modifier.width(16.dp))

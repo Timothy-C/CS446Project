@@ -2,7 +2,6 @@ package com.example.spotistics
 
 import android.net.http.HttpException
 import android.net.http.UrlRequest
-import android.net.http.UrlRequest.Callback
 import android.net.http.UrlResponseInfo
 import android.os.Build
 import android.util.Log
@@ -12,7 +11,7 @@ import java.nio.ByteBuffer
 private const val TAG = "MyUrlRequestCallback"
 
 @RequiresExtension(extension = Build.VERSION_CODES.S, version = 7)
-class MyUrlRequestCallback : Callback {
+class MyUrlRequestCallback : UrlRequest.Callback {
     override fun onRedirectReceived(p0: UrlRequest, p1: UrlResponseInfo, p2: String) {
         Log.i(TAG, "onRedirectReceived method called.")
         // You should call the request.followRedirect() method to continue

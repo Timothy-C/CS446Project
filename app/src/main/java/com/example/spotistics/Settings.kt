@@ -11,6 +11,7 @@ import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -24,7 +25,12 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
         Button(onClick = {}) {
             Text("<")
         }
-        Text(text = "settings", fontSize = 30.sp, fontWeight = FontWeight(700))
+        Text(
+            text = "settings",
+            fontSize = 30.sp,
+            fontWeight = FontWeight(700),
+            color = Color.White
+        )
 //        Text(text = "account", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
 //        Button(onClick = {}) {
 //            Text("Sync recent listening history")
@@ -32,34 +38,62 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
 //        Button(onClick = {}) {
 //            Text("Connect new spotify account")
 //        }
-//        Text(text = "dark mode", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
-//
-//        Text(text = "playback", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
-//        Row(verticalAlignment = Alignment.CenterVertically) {
-//            RadioButton(selected = yt, onClick = {})
-//            Text("YouTube")
-//        }
-//        Row(verticalAlignment = Alignment.CenterVertically) {
-//            RadioButton(selected = spt, onClick = {})
-//            Text("Spotify (requires premium account)")
-//        }
-//        Text(text = "social", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
-//        Row(modifier = Modifier.padding(top = 10.dp)) {
-//            Column (modifier = Modifier.padding(end = 50.dp)) {
-//                Text(text = "twitter", fontSize = 15.sp)
-//                Text(text = "share your listening stats on Twitter!")
-//            }
-//            Button(onClick = {}) {
-//                Text("connect")
-//            }
-//        }
+        Text(
+            text = "dark mode",
+            fontSize = 20.sp,
+            fontWeight = FontWeight(400),
+            modifier = Modifier.padding(top = 20.dp),
+            color = Color.White
+        )
+
+        Text(
+            text = "playback",
+            fontSize = 20.sp,
+            fontWeight = FontWeight(400),
+            modifier = Modifier.padding(top = 20.dp),
+            color = Color.White
+        )
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            RadioButton(selected = yt, onClick = {})
+            Text(
+                text = "YouTube",
+                color = Color.White
+            )
+        }
+        Row(verticalAlignment = Alignment.CenterVertically) {
+            RadioButton(selected = spt, onClick = {})
+            Text(
+                text = "Spotify (requires premium account)",
+                color = Color.White
+            )
+        }
+        Text(text = "social", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
+        Row(modifier = Modifier.padding(top = 10.dp)) {
+            Column (modifier = Modifier.padding(end = 50.dp)) {
+                Text(
+                    text = "twitter",
+                    fontSize = 15.sp,
+                    color = Color.White
+                )
+                Text(
+                    text = "share your listening stats on Twitter!",
+                    color = Color.White
+                )
+            }
+            Button(onClick = {}) {
+                Text(
+                    text = "connect",
+                    color = Color.White
+                )
+            }
+        }
 
         Text(text = "privacy", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
         Button(onClick = { /*TODO*/ }) {
-            Text(text = "logout")
+            Text(
+                text = "logout",
+                color = Color.White
+            )
         }
-
-
     }
-
 }
