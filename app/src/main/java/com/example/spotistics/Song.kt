@@ -41,7 +41,5 @@ val dummySongs3 = listOf(
     Song(5, R.drawable.julia_jack, "Lydia Wears a Cross", "Julia Jacklin"),
     Song(6, R.drawable.pods, "Pods", "Two Shell"),
     Song(7, R.drawable.joe, "bezhigo", "Joe Rainey"),
-    Song(8, R.drawable.pusha, "Diet Coke", "Pusha T"),
-    Song(9, R.drawable.muna, "What I Want", "Muna"),
-    Song(10, R.drawable.ka, "Ascension", "Ka"),
+    Song(8, R.drawable.pusha, "Diet Coke", "Pusha T")
 )

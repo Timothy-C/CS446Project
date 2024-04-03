@@ -55,6 +55,7 @@ enum class FilterOption {
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun Recommendations(innerPadding: PaddingValues, colScrollState: LazyListState, songs: List<Song>) {
+    var songsToShow by remember { mutableStateOf(songs) }
 
     Column(
         modifier = Modifier.padding(30.dp, 15.dp, 30.dp, 0.dp)
@@ -103,7 +104,12 @@ fun Recommendations(innerPadding: PaddingValues, colScrollState: LazyListState, 
         Spacer(modifier = Modifier.height(10.dp))
 
         Scaffold { innerPadding ->
-            CollapsibleFiltersSection(songs = songs)
+            CollapsibleFiltersSection(
+                songs = songsToShow,
+                updateSongList = { updatedSongs ->
+                    songsToShow = updatedSongs
+                }
+            )
         }
     }
 }
@@ -235,7 +241,7 @@ fun SongItem(song: Song, textColor: Color = Color.Black) {
 }
 
 @Composable
-fun CollapsibleFiltersSection(songs: List<Song>) {
+fun CollapsibleFiltersSection(songs: List<Song>, updateSongList: (List<Song>) -> Unit) {
     var isExpanded by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     var errorMessage by remember { mutableStateOf<String?>(null) }
@@ -407,6 +413,8 @@ fun CollapsibleFiltersSection(songs: List<Song>) {
 
                 Button(
                     onClick = {
+                        updateSongList(dummySongs3)
+
                         // Reset error message at the beginning of the logic
                         errorMessage = null
 
