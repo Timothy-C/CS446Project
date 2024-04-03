@@ -45,6 +45,12 @@ import com.example.spotistics.ui.theme.quicksandFamily
 import androidx.compose.foundation.verticalScroll
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.material3.RadioButton
+
+
+enum class FilterOption {
+    Artists, Genres, Tracks
+}
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -96,118 +102,6 @@ fun Recommendations(innerPadding: PaddingValues, colScrollState: LazyListState, 
 
         Spacer(modifier = Modifier.height(10.dp))
 
-//        // Filters section
-//        Box(modifier = Modifier.fillMaxSize()) {
-//            Column(
-//                modifier = Modifier
-//                    .verticalScroll(rememberScrollState())
-//                    .padding(bottom = innerPadding.calculateBottomPadding())
-//            ) {
-//                Text("Filters", fontSize = 20.sp, color = Color.White, fontFamily = quicksandFamily)
-//                Spacer(modifier = Modifier.height(10.dp))
-//
-//                // Limit Input
-//                OutlinedTextField(
-//                    value = limit.toString(),
-//                    onValueChange = { newValue ->
-//                        // Update limit with the new value if it's an integer and less than or equal to 30,
-//                        // otherwise set it to 0
-//                        limit = newValue.toIntOrNull()?.takeIf { it <= 30 } ?: 0
-//                    },
-//                    label = {
-//                        Text(
-//                            "Limit (up to 30)",
-//                            color = Color.White
-//                        )
-//                    },
-//                    keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-//                    textStyle = TextStyle(color = Color.White), // Set the color of the input text here
-//
-//                    colors = TextFieldDefaults.outlinedTextFieldColors(
-//                        // You can still customize other aspects of the text field's appearance here,
-//                        // like the focused and unfocused border colors, cursor color, etc.
-//                        focusedBorderColor = Color.White,
-//                        unfocusedBorderColor = Color.Gray,
-//                        // For label colors when focused and unfocused, if needed:
-//                        focusedLabelColor = Color.White,
-//                        unfocusedLabelColor = Color.Gray
-//                    )
-//                )
-//
-//                Row(verticalAlignment = Alignment.CenterVertically) {
-//                    Checkbox(
-//                        checked = artists,
-//                        onCheckedChange = { artists = it }
-//                    )
-//                    Text("artists", color = Color.White)
-//                }
-//
-//                FilterSliderWithSteps(
-//                    label = "Acousticness",
-//                    value = acousticness,
-//                    onValueChange = { newValue -> acousticness = newValue },
-//                    enabled = acousticnessInclude,
-//                    onIncludeChange = { newValue -> acousticnessInclude = newValue }
-//                )
-//                FilterSliderWithSteps(
-//                    label = "Danceability",
-//                    value = danceability,
-//                    onValueChange = { newValue -> danceability = newValue },
-//                    enabled = danceabilityInclude,
-//                    onIncludeChange = { newValue -> danceabilityInclude = newValue }
-//                )
-//                FilterSliderWithSteps(
-//                    label = "Energy",
-//                    value = energy,
-//                    onValueChange = { newValue -> energy = newValue },
-//                    enabled = energyInclude,
-//                    onIncludeChange = { newValue -> energyInclude = newValue }
-//                )
-//                FilterSlider(
-//                    label = "Duration",
-//                    value = duration,
-//                    onValueChange = { newValue -> duration = newValue },
-//                    valueRange = 0f..180000f, // Set the custom range for duration
-//                    enabled = durationInclude,
-//                    onIncludeChange = { newValue -> durationInclude = newValue }
-//                )
-//                FilterSliderWithSteps(
-//                    label = "Instrumentalness",
-//                    value = instrumentalness,
-//                    onValueChange = { newValue -> instrumentalness = newValue },
-//                    enabled = instrumentalnessInclude,
-//                    onIncludeChange = { newValue -> instrumentalnessInclude = newValue }
-//                )
-//                FilterSliderWithSteps(
-//                    label = "Liveness",
-//                    value = liveness,
-//                    onValueChange = { newValue -> liveness = newValue },
-//                    enabled = livenessInclude,
-//                    onIncludeChange = { newValue -> livenessInclude = newValue }
-//                )
-//                FilterSlider(
-//                    label = "Loudness",
-//                    value = loudness,
-//                    onValueChange = { newValue -> loudness = newValue },
-//                    valueRange = -60f..0f,
-//                    enabled = loudnessInclude,
-//                    onIncludeChange = { newValue -> loudnessInclude = newValue }
-//                )
-//            }
-//        }
-//
-//
-//        Spacer(modifier = Modifier.height(10.dp))
-//
-//        LazyColumn {
-//            items(songs) { song ->
-//                SongItem(song)
-//                Divider()
-//            }
-//        }
-
-
-        // Your UI structure, including the CollapsibleFiltersSection
         Scaffold { innerPadding ->
             CollapsibleFiltersSection(songs = songs)
         }
@@ -346,6 +240,9 @@ fun CollapsibleFiltersSection(songs: List<Song>) {
     val scrollState = rememberScrollState()
     var errorMessage by remember { mutableStateOf<String?>(null) }
 
+    var selectedOption by remember { mutableStateOf(FilterOption.Artists) } // Default to 'Artists'
+
+
     var limit by remember { mutableStateOf(10) }
     var artists by remember { mutableStateOf(false) }
     var genres by remember { mutableStateOf(false)  }
@@ -411,27 +308,13 @@ fun CollapsibleFiltersSection(songs: List<Song>) {
                     textStyle = TextStyle(color = Color.Black), // Set the color of the input text here
 
                 )
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = artists,
-                        onCheckedChange = { artists = it }
-                    )
-                    Text("artists", color = Color.Black)
+
+                Row(Modifier.fillMaxWidth()) {
+                    RadioOption(option = FilterOption.Artists, selectedOption = selectedOption, onOptionSelected = { selectedOption = it })
+                    RadioOption(option = FilterOption.Genres, selectedOption = selectedOption, onOptionSelected = { selectedOption = it })
+                    RadioOption(option = FilterOption.Tracks, selectedOption = selectedOption, onOptionSelected = { selectedOption = it })
                 }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = genres,
-                        onCheckedChange = { genres = it }
-                    )
-                    Text("genres", color = Color.Black)
-                }
-                Row(verticalAlignment = Alignment.CenterVertically) {
-                    Checkbox(
-                        checked = tracks,
-                        onCheckedChange = { tracks = it }
-                    )
-                    Text("tracks", color = Color.Black)
-                }
+
 
                 FilterSliderWithSteps(
                     label = "Acousticness",
@@ -528,17 +411,15 @@ fun CollapsibleFiltersSection(songs: List<Song>) {
                         errorMessage = null
 
                         val activeFilters = listOf(
-                            artists, genres, tracks, acousticnessInclude, danceabilityInclude,
+                            acousticnessInclude, danceabilityInclude,
                             durationInclude, energyInclude, instrumentalnessInclude,
                             livenessInclude, loudnessInclude, modeInclude, popularityInclude,
                             speechinessInclude, tempoInclude, valenceInclude
                         ).count { it }
 
                         // Validate total active filters
-                        if (activeFilters > 10) {
+                        if (activeFilters > 9) {
                             errorMessage = "Selected items should not be greater than 10"
-                        } else if (listOf(artists, genres, tracks).count { it } == 0) {
-                            errorMessage = "Select at least one of artists, genres, tracks"
                         } else {
                             // If there are no errors, apply filters, hide the filter section, and show the list of songs
 //                            filtersApplied = true
@@ -572,3 +453,24 @@ fun CollapsibleFiltersSection(songs: List<Song>) {
         }
     }
 }
+
+@Composable
+fun RadioOption(option: FilterOption, selectedOption: FilterOption, onOptionSelected: (FilterOption) -> Unit) {
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
+        modifier = Modifier
+            .padding(horizontal = 1.dp)
+            .clickable(onClick = { onOptionSelected(option) })
+    ) {
+        RadioButton(
+            selected = option == selectedOption,
+            onClick = { onOptionSelected(option) }
+        )
+        Text(
+            text = option.name.replaceFirstChar { it.uppercase() },
+            modifier = Modifier.padding(start = 4.dp)
+        )
+    }
+}
+
+
