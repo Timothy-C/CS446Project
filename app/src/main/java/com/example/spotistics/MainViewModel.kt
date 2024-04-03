@@ -10,6 +10,7 @@ import kotlinx.coroutines.launch
 class MainViewModel: ViewModel() {
     private val apiService = RetrofitInstance.api
     val songs: MutableState<List<SongStat>> = mutableStateOf(emptyList())
+    /*
     fun getHistory() {
         viewModelScope.launch {
             try {
@@ -23,5 +24,5 @@ class MainViewModel: ViewModel() {
                 Log.e("TAG", e.toString())
             }
         }
-    }
+    }*/
 }

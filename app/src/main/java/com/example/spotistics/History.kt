@@ -377,8 +377,3 @@ fun History(viewModel: MainViewModel, innerPadding: PaddingValues, colScrollStat
         //onDispose {}
     //}
 }
-
-@Composable
-fun IconButton(onClick: () -> Unit, content: () -> Unit) {
-
-}
