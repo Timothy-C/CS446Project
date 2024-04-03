@@ -38,10 +38,20 @@
 
 |2024/03/25|-----|-------|--------|4----|-------|--------| Created the Search page, navigation to search results, and set up passing search query data between pages
 
+|2024/03/27|-----|-------|--------|-----|8------|--------| Refactor /spotify endpoints, fixing bugs and completing all major feature
+
 |2024/03/30|-----|-------|--------|-----|-------|4-------| Update Statistics Page to merge with main and new features
 
 |2024/03/31|-----|-------|--------|-----|-------|2-------| Added Scroll bar to display user preferences Statistics
 
+|2024/03/31|-----|-------|--------|-----|6------|--------| Connect backend with db. Create service workers for all the main functionality between them
+
 |2024/04/01|-----|-------|--------|-----|-------|3-------| Added Calendar to filter Statistics by week
 
 |2024/04/01|-----|-------|--------|4----|-------|--------| Added Retrofit API calls and some set up for passing API responses to the corresponding screens, as well as debugging unsuccessful responses
+
+|2024/04/01|-----|-------|--------|-----|1------|--------| Update documentation to describe usage of all endpoints and error codes
+
+|2024/04/01|4----|4------|4-------|4----|4------|4-------| Begin integrating API with application
+
+|2024/04/01|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
