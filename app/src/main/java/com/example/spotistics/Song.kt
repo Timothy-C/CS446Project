@@ -32,3 +32,16 @@ val dummySongs2 = listOf(
     Song(9, R.drawable.bohemian_rhapsody, "Bohemian Rhapsody", "Queen"),
     Song(10, R.drawable.lana, "A&W", "Lana Del Rey"),
     )
+
+val dummySongs3 = listOf(
+    Song(1, R.drawable.black_midi, "Welcome to Hell", "Black Midi"),
+    Song(2, R.drawable.phonex, "Tonight", "Phoenix"),
+    Song(3, R.drawable.tomberlin, "happy accident", "Tomberlin"),
+    Song(4, R.drawable.horse_lords, "May Brigade", "Horse Lords"),
+    Song(5, R.drawable.julia_jack, "Lydia Wears a Cross", "Julia Jacklin"),
+    Song(6, R.drawable.pods, "Pods", "Two Shell"),
+    Song(7, R.drawable.joe, "bezhigo", "Joe Rainey"),
+    Song(8, R.drawable.pusha, "Diet Coke", "Pusha T"),
+    Song(9, R.drawable.muna, "What I Want", "Muna"),
+    Song(10, R.drawable.ka, "Ascension", "Ka"),
+)
