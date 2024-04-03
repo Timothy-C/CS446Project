@@ -104,12 +104,13 @@ fun Throwbacks(innerPadding: PaddingValues, colScrollState: LazyListState, songs
 
         LazyColumn {
             items(songs) { song ->
-                SongItem(song)
+                SongItem(song, Color.White)
                 Divider()
             }
         }
     }
 }
+
 
 // Preview for RecommendationScreen
 //@Preview(showBackground = true)
