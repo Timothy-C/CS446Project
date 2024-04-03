@@ -34,7 +34,7 @@ import com.example.spotistics.ui.theme.quicksandFamily
 import recSongs
 
 @Composable
-fun Home(innerPadding: PaddingValues, colScrollState: LazyListState, applicationContext: Context) {
+fun Home(innerPadding: PaddingValues, colScrollState: LazyListState) {
     val rowScrollState = rememberScrollState()
 
     LazyColumn(

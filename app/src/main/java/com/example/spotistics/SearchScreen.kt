@@ -1,6 +1,5 @@
 package com.example.spotistics
 
-import android.content.Context
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
@@ -40,7 +39,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(DelicateCoroutinesApi::class)
 @Composable
-fun Search(innerPadding: PaddingValues, colScrollState: LazyListState, applicationContext: Context) {
+fun Search(innerPadding: PaddingValues, colScrollState: LazyListState) {
     val albumText = remember { mutableStateOf(TextFieldValue()) }
     val artistText = remember { mutableStateOf(TextFieldValue()) }
     val songText = remember { mutableStateOf(TextFieldValue()) }
