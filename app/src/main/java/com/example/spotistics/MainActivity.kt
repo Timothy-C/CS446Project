@@ -178,7 +178,6 @@ class MainActivity : AppCompatActivity() {
 
             println("maccesstoken " + mAccessToken)
 
-            updateTokenView()
         } else if (requestCode == AUTH_CODE_REQUEST_CODE) {
             mAccessCode = response.code
             println("req code" + response.state + response.expiresIn)
@@ -190,7 +189,6 @@ class MainActivity : AppCompatActivity() {
             }
 
             println("maccesscode " + mAccessCode)
-            updateCodeView()
         }
     }
 

@@ -32,27 +32,27 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
 //        Button(onClick = {}) {
 //            Text("Connect new spotify account")
 //        }
-        Text(text = "dark mode", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
-
-        Text(text = "playback", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(selected = yt, onClick = {})
-            Text("YouTube")
-        }
-        Row(verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(selected = spt, onClick = {})
-            Text("Spotify (requires premium account)")
-        }
-        Text(text = "social", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
-        Row(modifier = Modifier.padding(top = 10.dp)) {
-            Column (modifier = Modifier.padding(end = 50.dp)) {
-                Text(text = "twitter", fontSize = 15.sp)
-                Text(text = "share your listening stats on Twitter!")
-            }
-            Button(onClick = {}) {
-                Text("connect")
-            }
-        }
+//        Text(text = "dark mode", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
+//
+//        Text(text = "playback", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            RadioButton(selected = yt, onClick = {})
+//            Text("YouTube")
+//        }
+//        Row(verticalAlignment = Alignment.CenterVertically) {
+//            RadioButton(selected = spt, onClick = {})
+//            Text("Spotify (requires premium account)")
+//        }
+//        Text(text = "social", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
+//        Row(modifier = Modifier.padding(top = 10.dp)) {
+//            Column (modifier = Modifier.padding(end = 50.dp)) {
+//                Text(text = "twitter", fontSize = 15.sp)
+//                Text(text = "share your listening stats on Twitter!")
+//            }
+//            Button(onClick = {}) {
+//                Text("connect")
+//            }
+//        }
 
         Text(text = "privacy", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
         Button(onClick = { /*TODO*/ }) {
