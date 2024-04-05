@@ -1,4 +1,4 @@
-| Date | Tim | Tracy | Hailey | Amy | Jason | Jessie | Task
+| Date     | Tim | Tracy | Hailey | Amy | Jason | Jessie | Task
 
 |−−−−−−----|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|-------|--------|
 
@@ -54,6 +54,8 @@
 
 |2024/03/31|-----|-------|--------|-----|-------|8-------| Created Calendar to filter Statistics by week, fixed issues with accessing user selected dates in different functions to update variables
 
+|2024/03/31|--7--|-------|--------|-----|-------|--------| Work on Retrofit API calls, investigated Cronet and other ways to call API
+
 |2024/04/01|-----|-------|--------|-----|-------|6-------| Modified code to allow for data to be passed in with separate functions to allow for API calls, creating new function calls for all data points
 
 |2024/04/01|-----|-------|--------|4----|-------|--------| Added Retrofit API calls and some set up for passing API responses to the corresponding screens, as well as debugging unsuccessful responses
@@ -68,9 +70,11 @@
 
 |2024/04/01|--6---|--6---|6-------|6----|6------|-6------| Integrating API calls with frontend UI
 
+|2024/04/01|--6---|------|--------|-----|-------|--------| Worked on calendar filter for history page
+
 |2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
 
-|2024/04/02|--6--|-6-----|--6------|-6---|----6---|----6---| Merge all changes
+|2024/04/02|--6--|---6---|--6-----|-6---|---6---|----6---| Merge all changes
 
 |2024/04/02|-----|1.0----|--------|-----|-------|--------| Fix login bugs from merging changes
 
