@@ -66,11 +66,11 @@
 
 |2024/04/01|-----|7.0----|--------|-----|-------|--------| Add Spotify authentication to Login frontend
 
-|2024/04/01|4----|4------|4-------|4----|4------|4-------| Integrating API calls with frontend UI
+|2024/04/01|--6---|--6---|6-------|6----|6------|-6------| Integrating API calls with frontend UI
 
 |2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
 
-|2024/04/02|4----|4------|4-------|4----|4------|4-------| Merge all changes
+|2024/04/02|--6--|-6-----|--6------|-6---|----6---|----6---| Merge all changes
 
 |2024/04/02|-----|1.0----|--------|-----|-------|--------| Fix login bugs from merging changes
 
