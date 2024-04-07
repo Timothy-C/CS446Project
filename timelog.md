@@ -12,7 +12,7 @@
 
 |2024/02/22|-----|−2.0−−−|−−−−−−−−|-----|-------|--------| Create login page frontend
 
-|2024/02/23|-----|−−−−−−−|−−4.0-−−|−−−−−|-------|--------| Develop recommendations page
+|2024/02/23|-----|−−−−−−−|−−5.0-−−|−−−−−|-------|--------| Develop recommendations page
 
 |2024/02/26|-----|−−−−−−−|−-3.0-−−|−−−−−|-------|--------| Develop Throwbacks page, resolved error
 
@@ -63,6 +63,8 @@
 |2024/04/01|-----|-------|--------|-----|-------|6-------| Understanding how to use API calls, structure, organization, how to handle multiple API calls using Retrofit, and understanding group members work to see best way to combine and merge
 
 |2024/04/01|-----|-------|--------|-----|8------|--------| Update documentation to describe usage of all endpoints and error codes. Resolved deployment issues. Created database tables and security.
+
+|2024/04/01|-----|-------|---8.0---|-----|-------|--------| Created Filter with checkbox, slider for Recommendations page
 
 |2024/04/01|-----|4.0----|--------|-----|-------|--------| Understand how Spotify authentication works on android
 
