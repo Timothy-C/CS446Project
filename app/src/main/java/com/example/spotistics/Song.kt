@@ -43,3 +43,10 @@ val dummySongs3 = listOf(
     Song(7, R.drawable.joe, "bezhigo", "Joe Rainey"),
     Song(8, R.drawable.pusha, "Diet Coke", "Pusha T")
 )
+
+data class SongStat(
+    val timeStamp: String,
+    val coverResource: String,
+    val title: String,
+    val artist: String
+)

@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.View
 import android.widget.TextView
 import androidx.activity.compose.setContent
+import androidx.activity.viewModels
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.Image
@@ -91,13 +92,14 @@ class MainActivity : AppCompatActivity() {
     private var mAccessCode: String? = null
     private var mCall: Call? = null
     private var spotifyAppRemote: SpotifyAppRemote? = null
+    private val viewModel: MainViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
             supportActionBar?.hide()
-            Navigation {
+            Navigation(viewModel = viewModel) {
                 onRequestTokenClicked(null)
             }
         }
@@ -228,14 +230,14 @@ class MainActivity : AppCompatActivity() {
 
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(link: () -> Unit) {
+fun Navigation(viewModel: MainViewModel, link: () -> Unit) {
     val navController = rememberNavController()
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
             Login(navController, link)
         }
         composable("home") {
-            MainNavigation(navController)
+            MainNavigation(viewModel, navController)
         }
     }
 }
@@ -243,7 +245,7 @@ fun Navigation(link: () -> Unit) {
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavigation(navController: NavHostController) {
+fun MainNavigation(viewModel: MainViewModel, navController: NavHostController) {
     var route by remember {mutableStateOf(Screens.Home)}
     var searchQuery by remember {mutableStateOf(hashMapOf<String,String>())}
     val scaffoldState = rememberScaffoldState()
@@ -290,7 +292,7 @@ fun MainNavigation(navController: NavHostController) {
                          Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
                          Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
                          Screens.Statistics -> Statistics()
-                         Screens.History -> History(innerPadding, scrollState)
+                         Screens.History -> History(viewModel, innerPadding, scrollState)
                          Screens.Settings -> Settings(innerPadding, scrollState)
                     }
                 }
