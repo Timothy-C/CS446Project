@@ -46,6 +46,8 @@
 
 |2024/03/27|-----|-------|--------|-----|8------|--------| Refactor /spotify endpoints, fixing bugs and completing all major feature
 
+|2024/03/30|-----|-------|----2---|-----|-------|--------| Modified the structure of Recommendations page, changed the UI-font colour
+
 |2024/03/30|-----|-------|--------|-----|-------|5-------| Merge with main, update Statistics Page with new features, with new UI design based on API endpoints
 
 |2024/03/30|-----|-------|--------|-----|-------|2-------| Added Slider bar to display user preferences Statistic and scroll for entire page
