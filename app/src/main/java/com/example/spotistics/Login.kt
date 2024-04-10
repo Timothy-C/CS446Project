@@ -83,9 +83,6 @@ fun Login(navController: NavHostController, link: () -> Unit) {
                         modifier = Modifier.size(width = 350.dp, height = 50.dp),
                         shape = RoundedCornerShape(20),
                     ) {
-                        // TODO: I present the UI
-                        // TODO: make auth work by today
-                        // 10.0.2.2:3000/auth/loginPageURL
                         // use spotify sdk for auth
                         // keep tokens, only send back when need request
                         Row {

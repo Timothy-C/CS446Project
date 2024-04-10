@@ -4,9 +4,9 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.material.Button
 import androidx.compose.material.RadioButton
+import androidx.compose.material.RadioButtonDefaults
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -17,7 +17,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
 @Composable
-fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
+fun Settings(innerPadding: PaddingValues) {
     val yt = false
     val spt = false
 
@@ -26,7 +26,7 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
             Text("<")
         }
         Text(
-            text = "settings",
+            text = "Settings",
             fontSize = 30.sp,
             fontWeight = FontWeight(700),
             color = Color.White
@@ -39,7 +39,7 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
 //            Text("Connect new spotify account")
 //        }
         Text(
-            text = "dark mode",
+            text = "Dark Mode",
             fontSize = 20.sp,
             fontWeight = FontWeight(400),
             modifier = Modifier.padding(top = 20.dp),
@@ -54,20 +54,34 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
             color = Color.White
         )
         Row(verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(selected = yt, onClick = {})
+            RadioButton(
+                selected = yt,
+                onClick = {},
+                colors = RadioButtonDefaults.colors(unselectedColor = Color.White)
+            )
             Text(
                 text = "YouTube",
                 color = Color.White
             )
         }
         Row(verticalAlignment = Alignment.CenterVertically) {
-            RadioButton(selected = spt, onClick = {})
+            RadioButton(
+                selected = spt,
+                onClick = {},
+                colors = RadioButtonDefaults.colors(unselectedColor = Color.White)
+            )
             Text(
                 text = "Spotify (requires premium account)",
                 color = Color.White
             )
         }
-        Text(text = "social", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
+        Text(
+            text = "Social",
+            color = Color.White,
+            fontSize = 20.sp,
+            fontWeight = FontWeight(400),
+            modifier = Modifier.padding(top = 20.dp)
+        )
         Row(modifier = Modifier.padding(top = 10.dp)) {
             Column (modifier = Modifier.padding(end = 50.dp)) {
                 Text(
@@ -88,7 +102,13 @@ fun Settings(innerPadding: PaddingValues, colScrollState: LazyListState) {
             }
         }
 
-        Text(text = "privacy", fontSize = 20.sp, fontWeight = FontWeight(400), modifier = Modifier.padding(top = 20.dp))
+        Text(
+            text = "privacy",
+            color = Color.White,
+            fontSize = 20.sp,
+            fontWeight = FontWeight(400),
+            modifier = Modifier.padding(top = 20.dp)
+        )
         Button(onClick = { /*TODO*/ }) {
             Text(
                 text = "logout",

@@ -1,72 +1,51 @@
 package com.example.spotistics
 
 import android.util.Log
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.mutableStateOf
-import com.google.gson.Gson
-import com.google.gson.JsonObject
+import okhttp3.Interceptor
 import okhttp3.OkHttpClient
-import org.json.JSONObject
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
+import okhttp3.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.http.Body
 import retrofit2.http.GET
+import retrofit2.http.POST
+import retrofit2.http.Query
 
-//class InitialData (
-//    @field:SerializedName("accessToken") var accessToken: String,
-//    @field:SerializedName("spotifyUser") var spotifyUser: String,
-//)
-
-var accessToken: MutableState<String> = mutableStateOf("")
-var spotifyUser: MutableState<String> = mutableStateOf("")
-
+// Set up API requests to retrieve display data
 interface ApiService {
-    //@GET("spotify/history")
-    //suspend fun getSongStats(@Query("limit") limit: Int): List < SongStat >
-
     @GET("auth/refreshToken")
-    fun refreshToken(): Call<JsonObject>
+    suspend fun getAccessToken(): AccessToken
 
-    @GET("spotify/user")
-    fun spotifyUser(): Call<JsonObject>
+    @GET("/spotify/user")
+    suspend fun getUser(): User
+
+    @POST("/spotify/search")
+    @JvmSuppressWildcards
+    suspend fun getSearchResult(@Body body: Map<String, Any>): SearchResult
+
+    @POST("/spotify/recommend")
+    @JvmSuppressWildcards
+    suspend fun getRecommendations(@Body body: Map<String, Any>): RecommendationResult
+
+    @GET("/spotistics/stats")
+    suspend fun getStats(@Query("dateStart") dateStart: Long, @Query("dateEnd") dateEnd: Long): Stats
+
+    @GET("/spotistics/history")
+    suspend fun getHistory(
+        @Query("dateStart") dateStart: Long,
+        @Query("dateEnd") dateEnd: Long,
+        @Query("limit") limit: Int,
+        @Query("offset") offset: Int
+    ): History
 }
 
-object RetrofitAccessToken {
-    private const val BASE_URL = "http://3.144.186.12/"
-
-    private val client = OkHttpClient.Builder()
-        .addInterceptor { chain ->
-            val request = chain.request().newBuilder()
-                .addHeader("Cookie", "refresh_token=insert refresh token")
-                .build()
-            chain.proceed(request)
-        }
-        .build()
-
-    val api: ApiService by lazy {
-        val retrofit = Retrofit.Builder()
-            .baseUrl(BASE_URL)
-            .client(client)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        retrofit.create(ApiService::class.java)
-    }
-}
-
+// Create HTTP client using Retrofit
 object RetrofitInstance {
     private const val BASE_URL = "http://3.144.186.12/"
-    //private const val BASE_URL = "https://jsonplaceholder.typicode.com/todos/1"
-    // Todo: Store access token here
+    var accessToken = ""
 
     private val client = OkHttpClient.Builder()
-        .addInterceptor { chain ->
-            val request = chain.request().newBuilder()
-                .addHeader("Cookie", "refresh_token=insert refresh token here")
-                .build()
-            chain.proceed(request)
-        }
+        .addInterceptor(AuthInterceptor())
         .build()
 
     val api: ApiService by lazy {
@@ -77,62 +56,23 @@ object RetrofitInstance {
             .build()
         retrofit.create(ApiService::class.java)
     }
-}
 
-private fun setAccessToken(newToken: String) {
-    accessToken.value = newToken
-}
-
-private fun setSpotifyUser(user: String) {
-    spotifyUser.value = user
-}
-
-fun getUser(): String {
-    return spotifyUser.value
-}
-
-fun getAccessToken() {
-    val call = RetrofitAccessToken.api.refreshToken()
-    call.enqueue(object : Callback<JsonObject> {
-        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-            if (response.isSuccessful) {
-                val jsonObject = JSONObject(Gson().toJson(response.body()))
-                if (response.body() != null) {
-                    Log.i("API", "access_token: ${jsonObject.get("access_token")}")
-                    val accessToken = jsonObject.get("access_token").toString()
-                    setAccessToken(accessToken)
-                }
-                Log.i("API", "Response successful: ${response.message()}")
-            } else {
-                Log.i("API", "Response unsuccessful: ${response.errorBody()}")
-            }
+    private class AuthInterceptor : Interceptor {
+        override fun intercept(chain: Interceptor.Chain): Response {
+            val request = chain.request().newBuilder()
+                .addHeader("Cookie", "refresh_token=$refreshToken; access_token=$accessToken")
+                .build()
+            return chain.proceed(request)
         }
+    }
 
-        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-            Log.i("API", "Request failed: $t")
+    suspend fun refreshAccessToken() {
+        try {
+            val accessTokenResponse = api.getAccessToken()
+            accessToken = accessTokenResponse.accessToken
+        } catch (e: Exception) {
+            Log.e("API", "Failed to refresh access token: ${e.localizedMessage}")
+            throw e
         }
-    })
-}
-
-fun getSpotifyUser() {
-    val call = RetrofitInstance.api.spotifyUser()
-    call.enqueue(object : Callback<JsonObject> {
-        override fun onResponse(call: Call<JsonObject>, response: Response<JsonObject>) {
-            if (response.isSuccessful) {
-                val jsonObject = JSONObject(Gson().toJson(response.body()))
-                if (response.body() != null) {
-                    val displayName = jsonObject.get("display_name").toString()
-                    Log.i("API", "spotify user: $displayName")
-                    setSpotifyUser(displayName)
-                }
-                Log.i("API", "Response successful: ${response.message()}")
-            } else {
-                Log.i("API", "Response unsuccessful: ${response.errorBody()}")
-            }
-        }
-
-        override fun onFailure(call: Call<JsonObject>, t: Throwable) {
-            Log.i("API", "Request failed: $t")
-        }
-    })
+    }
 }

@@ -26,10 +26,12 @@ import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.icons.filled.SettingsBackupRestore
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalLayoutDirection
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
@@ -38,17 +40,17 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotistics.ui.theme.quicksandFamily
 
-data class NavigationItem (
-    val id: String,
-    val title: String,
-    val icon: ImageVector,
-    var data: HashMap<String,String>? = null
-)
-
 @Composable
 fun NavigationDrawer(
-    onItemClick: (NavigationItem) -> Unit
+    onItemClick: (NavigationItem) -> Unit,
+    viewModel: AppViewModel
 ) {
+    val userName by viewModel.userName.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getUser()
+    }
+
     val navItems = listOf(
         NavigationItem(
             id = "home",
@@ -107,7 +109,7 @@ fun NavigationDrawer(
                         )
                         Spacer(modifier = Modifier.width(16.dp))
                         Text(
-                            text = "446 project",
+                            text = userName.displayName,
                             color = Color.Black,
                             fontSize = 40.sp,
                             fontFamily = quicksandFamily,
