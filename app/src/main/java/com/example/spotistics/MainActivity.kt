@@ -35,6 +35,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -88,11 +89,9 @@ class MainActivity : AppCompatActivity() {
 
         setContent {
             supportActionBar?.hide()
-            Navigation (
-                { onRequestTokenClicked(null) },
-                viewModel,
-                historyViewModel
-            )
+            Navigation(viewModel = viewModel, historyViewModel = historyViewModel) {
+                onRequestTokenClicked(null)
+            }
         }
     }
 
@@ -144,7 +143,10 @@ class MainActivity : AppCompatActivity() {
     fun onRequestTokenClicked(view: View?) {
         val request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN)
         println("req" + request);
-        AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
+        val activityContext = this@MainActivity
+        activityContext.let {
+            AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
+        }
     }
 
     private fun getAuthenticationRequest(type: AuthorizationResponse.Type): AuthorizationRequest {
@@ -155,10 +157,11 @@ class MainActivity : AppCompatActivity() {
             .build()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val response = AuthorizationClient.getResponse(resultCode, data)
-        if (response.error != null && !response.error.isEmpty()) {
+        if (response.error != null && response.error.isNotEmpty()) {
             setResponse(response.error)
         }
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
@@ -173,6 +176,7 @@ class MainActivity : AppCompatActivity() {
 
             println("maccesstoken " + mAccessToken)
 
+            viewModel.setAccessToken(mAccessToken!!)
         } else if (requestCode == AUTH_CODE_REQUEST_CODE) {
             mAccessCode = response.code
             println("req code" + response.state + response.expiresIn)
@@ -184,6 +188,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             println("maccesscode " + mAccessCode)
+            viewModel.setAccessToken(mAccessToken!!)
         }
     }
 
@@ -222,11 +227,17 @@ class MainActivity : AppCompatActivity() {
 // Set up navigation between login and home screen
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(link: () -> Unit, viewModel: AppViewModel, historyViewModel: HistoryViewModel) {
+fun Navigation(viewModel: AppViewModel, historyViewModel: HistoryViewModel, link: () -> Unit) {
     val navController = rememberNavController()
+    val navigateHome by viewModel.navigateToHome.collectAsState()
+
+    if (navigateHome) {
+        navController.navigate("home")
+    }
+
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            Login(navController, link)
+            Login(link)
         }
         composable("home") {
             MainNavigation(viewModel, historyViewModel)

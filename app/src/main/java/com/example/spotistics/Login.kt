@@ -23,13 +23,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
 import com.example.spotistics.ui.theme.Navy
 import com.example.spotistics.ui.theme.quicksandFamily
 
 
 @Composable
-fun Login(navController: NavHostController, link: () -> Unit) {
+fun Login(link: () -> Unit) {
     val signInColors = ButtonColors(
         containerColor = Color.Green,
         contentColor = Color.Green,
@@ -76,10 +75,7 @@ fun Login(navController: NavHostController, link: () -> Unit) {
                 ) {
                     Button(
                         colors = signInColors,
-                        onClick = {
-                            link()
-                            navController.navigate("home")
-                        },
+                        onClick = { link() },
                         modifier = Modifier.size(width = 350.dp, height = 50.dp),
                         shape = RoundedCornerShape(20),
                     ) {

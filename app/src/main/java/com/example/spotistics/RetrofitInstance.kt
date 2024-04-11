@@ -41,7 +41,6 @@ interface ApiService {
 
 // Create HTTP client using Retrofit
 object RetrofitInstance {
-    private const val BASE_URL = "http://3.144.186.12/"
     var accessToken = ""
 
     private val client = OkHttpClient.Builder()
@@ -60,7 +59,7 @@ object RetrofitInstance {
     private class AuthInterceptor : Interceptor {
         override fun intercept(chain: Interceptor.Chain): Response {
             val request = chain.request().newBuilder()
-                .addHeader("Cookie", "refresh_token=$refreshToken; access_token=$accessToken")
+                .addHeader("Cookie", "access_token=$accessToken; refresh_token=")
                 .build()
             return chain.proceed(request)
         }

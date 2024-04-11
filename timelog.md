@@ -78,7 +78,7 @@
 
 |2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoints more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
 
-|2024/04/02|--6--|---6---|--6-----|-6---|---6---|----6---| Merge all changes
+|2024/04/02|--6--|---6---|--6-----|6----|---6---|----6---| Merge all changes
 
 |2024/04/02|-----|1.0----|--------|-----|-------|--------| Fix login bugs from merging changes
 
@@ -95,3 +95,5 @@
 |2024/04/07|-----|-------|--------|0.5--|-------|--------| Added "Listen on Spotify" links to songs that open the track/album in Spotify through Chrome
 
 |2024/04/07|-----|-------|--------|0.5--|-------|--------| Added UI updates including displaying album images fetched from back-end and re-formatting 
+
+|2024/04/10|-----|-------|--------|4----|-------|--------| Debugged login flow, emulator issues, updated setting access token through viewModel and navigation between login and home screen

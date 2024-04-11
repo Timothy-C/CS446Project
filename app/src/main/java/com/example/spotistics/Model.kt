@@ -3,7 +3,7 @@ package com.example.spotistics
 import androidx.compose.ui.graphics.vector.ImageVector
 import com.google.gson.annotations.SerializedName
 
-const val refreshToken = "AQAsDs2M5-1DsPGC44smQiegjj_l6rb_ix40Iook78oo2mk-PhCsOqTeE5TwO-3yQBs8D-0dTB17pVaCrH8zbmEMOqfVxoQKawgvQDotHFk19i7CSc1ZO53ooRW_Gp8AvKM"
+val BASE_URL = "http://3.144.186.12/"
 
 val genres = listOf(
     "Alternative", "Blues", "Classical", "Country", "Disco", "Folk",

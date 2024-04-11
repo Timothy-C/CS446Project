@@ -16,11 +16,12 @@ class AppViewModel() : ViewModel() {
     val popularAlbums: MutableStateFlow<RecommendationResult> = MutableStateFlow(emptyRecommendation)
     val statistics: MutableStateFlow<Stats> = MutableStateFlow(Stats(0, 0))
     val history: MutableStateFlow<History> = MutableStateFlow(History(listOf(TrackHistory("", ""))))
+    val navigateToHome: MutableStateFlow<Boolean> = MutableStateFlow(false)
 
-    init {
-        viewModelScope.launch {
-            retrofitInstance.refreshAccessToken()
-        }
+    // Store access token after login and trigger navigation to home screen
+    fun setAccessToken(accessToken: String) {
+        retrofitInstance.accessToken = accessToken
+        navigateToHome.value = true
     }
 
     // Retrieve Spotify user profile data
