@@ -11,7 +11,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
 import androidx.compose.material3.Divider
@@ -27,11 +26,12 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotistics.ui.theme.quicksandFamily
+import dummySongs
 
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Throwbacks(innerPadding: PaddingValues, colScrollState: LazyListState, songs: List<Song>) {
+fun Throwbacks(innerPadding: PaddingValues) {
     Column(
         modifier = Modifier.padding(30.dp, 15.dp, 30.dp, 0.dp)
     ) {
@@ -103,7 +103,7 @@ fun Throwbacks(innerPadding: PaddingValues, colScrollState: LazyListState, songs
         Spacer(modifier = Modifier.height(10.dp))
 
         LazyColumn {
-            items(songs) { song ->
+            items(dummySongs) { song ->
                 SongItem(song, Color.White)
                 Divider()
             }

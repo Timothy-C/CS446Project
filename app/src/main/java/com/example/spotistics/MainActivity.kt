@@ -20,7 +20,6 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
 import androidx.compose.material.Scaffold
@@ -36,6 +35,7 @@ import androidx.compose.material3.TopAppBarScrollBehavior
 import androidx.compose.material3.rememberTopAppBarState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -53,7 +53,6 @@ import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.core.content.ContextCompat
-import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
@@ -74,17 +73,6 @@ import org.json.JSONException
 import org.json.JSONObject
 import java.io.IOException
 
-object Screens {
-    const val Home = "home"
-    const val Search = "search"
-    const val SearchResults = "results"
-    const val Recommendations = "recs"
-    const val Throwbacks = "throwbacks"
-    const val Statistics = "stats"
-    const val History = "history"
-    const val Settings = "settings"
-}
-
 class MainActivity : AppCompatActivity() {
     private val clientId = "dcb7c8ef25dd48c2b832fd73164d9f4c"
     private val mOkHttpClient = OkHttpClient()
@@ -92,14 +80,16 @@ class MainActivity : AppCompatActivity() {
     private var mAccessCode: String? = null
     private var mCall: Call? = null
     private var spotifyAppRemote: SpotifyAppRemote? = null
-    private val viewModel: MainViewModel by viewModels()
+    private val viewModel: AppViewModel by viewModels()
+    private val historyViewModel: HistoryViewModel by viewModels()
 
     @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
         setContent {
             supportActionBar?.hide()
-            Navigation(viewModel = viewModel) {
+            Navigation(viewModel = viewModel, historyViewModel = historyViewModel) {
                 onRequestTokenClicked(null)
             }
         }
@@ -153,7 +143,10 @@ class MainActivity : AppCompatActivity() {
     fun onRequestTokenClicked(view: View?) {
         val request = getAuthenticationRequest(AuthorizationResponse.Type.TOKEN)
         println("req" + request);
-        AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
+        val activityContext = this@MainActivity
+        activityContext.let {
+            AuthorizationClient.openLoginActivity(this, AUTH_TOKEN_REQUEST_CODE, request)
+        }
     }
 
     private fun getAuthenticationRequest(type: AuthorizationResponse.Type): AuthorizationRequest {
@@ -164,10 +157,11 @@ class MainActivity : AppCompatActivity() {
             .build()
     }
 
+    @Deprecated("Deprecated in Java")
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         val response = AuthorizationClient.getResponse(resultCode, data)
-        if (response.error != null && !response.error.isEmpty()) {
+        if (response.error != null && response.error.isNotEmpty()) {
             setResponse(response.error)
         }
         if (requestCode == AUTH_TOKEN_REQUEST_CODE) {
@@ -182,6 +176,7 @@ class MainActivity : AppCompatActivity() {
 
             println("maccesstoken " + mAccessToken)
 
+            viewModel.setAccessToken(mAccessToken!!)
         } else if (requestCode == AUTH_CODE_REQUEST_CODE) {
             mAccessCode = response.code
             println("req code" + response.state + response.expiresIn)
@@ -193,6 +188,7 @@ class MainActivity : AppCompatActivity() {
             }
 
             println("maccesscode " + mAccessCode)
+            viewModel.setAccessToken(mAccessToken!!)
         }
     }
 
@@ -228,31 +224,38 @@ class MainActivity : AppCompatActivity() {
     }
 }
 
+// Set up navigation between login and home screen
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
-fun Navigation(viewModel: MainViewModel, link: () -> Unit) {
+fun Navigation(viewModel: AppViewModel, historyViewModel: HistoryViewModel, link: () -> Unit) {
     val navController = rememberNavController()
+    val navigateHome by viewModel.navigateToHome.collectAsState()
+
+    if (navigateHome) {
+        navController.navigate("home")
+    }
+
     NavHost(navController = navController, startDestination = "login") {
         composable("login") {
-            Login(navController, link)
+            Login(link)
         }
         composable("home") {
-            MainNavigation(viewModel, navController)
+            MainNavigation(viewModel, historyViewModel)
         }
     }
 }
 
+// Set up navigation between the navigation panel screens
 @RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun MainNavigation(viewModel: MainViewModel, navController: NavHostController) {
-    var route by remember {mutableStateOf(Screens.Home)}
-    var searchQuery by remember {mutableStateOf(hashMapOf<String,String>())}
+fun MainNavigation(viewModel: AppViewModel, historyViewModel: HistoryViewModel) {
     val scaffoldState = rememberScaffoldState()
     val scope = rememberCoroutineScope()
     val appBarState = rememberTopAppBarState()
     val scrollBehavior = TopAppBarDefaults.enterAlwaysScrollBehavior(appBarState)
-    val scrollState = rememberLazyListState()
+    var route by remember {mutableStateOf(Screens.Home)}
+    var searchQuery = mapOf<String, Any>()
 
     CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Rtl) {
         Scaffold(
@@ -264,9 +267,7 @@ fun MainNavigation(viewModel: MainViewModel, navController: NavHostController) {
             topBar = {
                 AppBar(
                     onNavigationIconClick = {
-                        scope.launch {
-                            scaffoldState.drawerState.open()
-                        }
+                        scope.launch { scaffoldState.drawerState.open() }
                     },
                     scrollBehavior = scrollBehavior,
                 )
@@ -275,25 +276,22 @@ fun MainNavigation(viewModel: MainViewModel, navController: NavHostController) {
                 NavigationDrawer(
                     onItemClick = {
                         route = it.id
-                        scope.launch {
-                            scaffoldState.drawerState.close()
-                        }
-                    }
+                        scope.launch { scaffoldState.drawerState.close() }
+                    },
+                    viewModel
                 )
             },
             content = { innerPadding ->
-                CompositionLocalProvider(
-                    LocalLayoutDirection provides LayoutDirection.Ltr,
-                ) {
+                CompositionLocalProvider(LocalLayoutDirection provides LayoutDirection.Ltr) {
                     when (route) {
-                         Screens.Home -> Home(innerPadding, scrollState)
-                         Screens.Search -> Search(innerPadding, scrollState, onItemClick = {route = it.id; /*searchQuery = it.data!!*/})
-                         Screens.SearchResults -> SearchResults(innerPadding, scrollState,/* searchQuery*/)
-                         Screens.Recommendations -> Recommendations(innerPadding, scrollState, dummySongs)
-                         Screens.Throwbacks -> Throwbacks(innerPadding, scrollState, dummySongs2)
-                         Screens.Statistics -> Statistics()
-                         Screens.History -> History(viewModel, innerPadding, scrollState)
-                         Screens.Settings -> Settings(innerPadding, scrollState)
+                         Screens.Home -> Home(innerPadding, viewModel)
+                         Screens.Search -> Search(innerPadding, onItemClick = {route = it.id; searchQuery = it.data})
+                         Screens.SearchResults -> SearchResults(innerPadding, viewModel, searchQuery)
+                         Screens.Recommendations -> Recommendations(innerPadding, viewModel)
+                         Screens.Throwbacks -> Throwbacks(innerPadding)
+                         Screens.Statistics -> Statistics(viewModel)
+                         Screens.History -> History(innerPadding, historyViewModel)
+                         Screens.Settings -> Settings(innerPadding)
                     }
                 }
             }
@@ -301,6 +299,7 @@ fun MainNavigation(viewModel: MainViewModel, navController: NavHostController) {
     }
 }
 
+// Display the app bar containing the app title and navigation panel button
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AppBar(

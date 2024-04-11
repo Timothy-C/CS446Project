@@ -3,62 +3,39 @@ package com.example.spotistics
 //import androidx.compose.foundation.VerticalScrollbar
 //import androidx.compose.foundation.rememberScrollbarAdapter
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.AlertDialog
-import androidx.compose.material.Button
-import androidx.compose.material.Icon
-import androidx.compose.material.IconButton
 import androidx.compose.material.Slider
 import androidx.compose.material.Text
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.KeyboardArrowLeft
-import androidx.compose.material.icons.filled.KeyboardArrowRight
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.text.SpanStyle
-import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.text.withStyle
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.spotistics.ui.theme.quicksandFamily
+import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Locale
-import java.text.DateFormatSymbols
-import java.text.SimpleDateFormat
-import java.util.*
-import kotlin.math.ceil
 import kotlin.random.Random
 
 
@@ -117,22 +94,6 @@ fun getGenre(startDate: Calendar, endDate: Calendar): String {
     return "Pop"
 }
 
-// data class to represent a preference
-data class Preference(
-    val name: String,
-    val value: Int
-)
-
-val preferences = listOf(
-    Preference("Acousticness", 7),
-    Preference("Danceability", 8),
-    Preference("Energy", 6),
-    Preference("Instrumentalness", 4),
-    Preference("Liveness", 5),
-    Preference("Popularity", 7),
-    Preference("Speechiness", 5)
-)
-
 @Composable
 // Function to get the default week label
 fun getDefaultWeekLabel(calendar: Calendar, selectedDate: Calendar?): String {
@@ -178,7 +139,7 @@ fun getDefaultWeekDates(calendar: Calendar): Pair<Calendar, Calendar> {
 }
 
 @Composable
-fun Statistics() {
+fun Statistics(viewModel: AppViewModel) {
     var selectedWeek by remember { mutableStateOf(Calendar.getInstance()) }
     var isDropDownMenuExpanded by remember { mutableStateOf(false) }
 
@@ -191,6 +152,12 @@ fun Statistics() {
 //    val minutesListened = remember { getMinutesListened(startDate, endDate) }
 //    val songsListened = remember { getSongsListened(startDate, endDate) }
     val genre = remember { getGenre(startDate, endDate) }
+
+    val statistics by viewModel.statistics.collectAsState()
+
+    LaunchedEffect(Unit) {
+        viewModel.getStatistics(startDate.timeInMillis, endDate.timeInMillis)
+    }
 
     LazyColumn(
         modifier = Modifier
@@ -431,4 +398,3 @@ fun TopItemsSection(
         }
     }
 }
-

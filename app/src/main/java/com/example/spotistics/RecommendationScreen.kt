@@ -1,5 +1,6 @@
 package com.example.spotistics
 
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
@@ -15,18 +16,30 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.LazyListState
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
+import androidx.compose.material.Checkbox
+import androidx.compose.material.DropdownMenu
+import androidx.compose.material.DropdownMenuItem
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.Checkbox
-import androidx.compose.material.DropdownMenu
-import androidx.compose.material.DropdownMenuItem
-import androidx.compose.material3.*
+import androidx.compose.material3.Button
+import androidx.compose.material3.Card
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedTextField
+import androidx.compose.material3.RadioButton
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Slider
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -41,21 +54,18 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import coil.compose.AsyncImage
 import com.example.spotistics.ui.theme.quicksandFamily
-import androidx.compose.foundation.verticalScroll
-import androidx.compose.foundation.rememberScrollState
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.material3.RadioButton
+import dummySongs3
 
 
 enum class FilterOption {
     Artists, Genres, Tracks
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun Recommendations(innerPadding: PaddingValues, colScrollState: LazyListState, songs: List<Song>) {
-    var songsToShow by remember { mutableStateOf(songs) }
+fun Recommendations(innerPadding: PaddingValues, viewModel: AppViewModel) {
+    var songsToShow by remember { mutableStateOf(emptyList<Song>()) }
 
     Column(
         modifier = Modifier.padding(30.dp, 15.dp, 30.dp, 0.dp)
@@ -105,10 +115,11 @@ fun Recommendations(innerPadding: PaddingValues, colScrollState: LazyListState, 
 
         Scaffold { innerPadding ->
             CollapsibleFiltersSection(
-                songs = songsToShow,
+                innerPadding,
                 updateSongList = { updatedSongs ->
                     songsToShow = updatedSongs
-                }
+                },
+                viewModel = viewModel
             )
         }
     }
@@ -197,10 +208,11 @@ fun SongItem(song: Song, textColor: Color = Color.Black) {
             .padding(15.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Image(
-            painter = painterResource(id = song.coverResourceId),
-            contentDescription = "Cover Image",
-            modifier = Modifier.size(56.dp)
+        AsyncImage(
+            model = song.image,
+            contentDescription = "Album cover",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier.size(56.dp),
         )
         Spacer(modifier = Modifier.width(15.dp))
         Column(
@@ -241,13 +253,11 @@ fun SongItem(song: Song, textColor: Color = Color.Black) {
 }
 
 @Composable
-fun CollapsibleFiltersSection(songs: List<Song>, updateSongList: (List<Song>) -> Unit) {
+fun CollapsibleFiltersSection(innerPadding: PaddingValues, updateSongList: (List<Song>) -> Unit, viewModel: AppViewModel) {
     var isExpanded by remember { mutableStateOf(false) }
     val scrollState = rememberScrollState()
     var errorMessage by remember { mutableStateOf<String?>(null) }
-
     var selectedOption by remember { mutableStateOf(FilterOption.Artists) } // Default to 'Artists'
-
 
     var limit by remember { mutableStateOf(10) }
     var artists by remember { mutableStateOf(false) }
@@ -279,6 +289,19 @@ fun CollapsibleFiltersSection(songs: List<Song>, updateSongList: (List<Song>) ->
     var valence by remember { mutableStateOf(0.5f) }
     var valenceInclude by remember { mutableStateOf(false) }
 
+    val recommendations by viewModel.recommendations.collectAsState()
+
+    LaunchedEffect(Unit) {
+        val body = mapOf(
+            "limit" to 20,
+            "offset" to 0,
+            "artists" to mapOf(
+                "useTop" to true,
+                "range" to "long_term"
+            )
+        )
+        viewModel.getRecommendations(body)
+    }
 
     Column(modifier = Modifier.padding(16.dp)) {
         Text(
@@ -430,7 +453,7 @@ fun CollapsibleFiltersSection(songs: List<Song>, updateSongList: (List<Song>) ->
                             errorMessage = "Selected items should not be greater than 10"
                         } else {
                             // If there are no errors, apply filters, hide the filter section, and show the list of songs
-//                            filtersApplied = true
+                            //filtersApplied = true
                             isExpanded = false // Optionally collapse the filter section
                         }
                     },
@@ -450,13 +473,16 @@ fun CollapsibleFiltersSection(songs: List<Song>, updateSongList: (List<Song>) ->
             }
         }
 
-        Divider(Modifier.padding(vertical = 8.dp))
+        Spacer(Modifier.padding(vertical = 8.dp))
 
         // List of songs (assuming LazyColumn for simplicity)
         LazyColumn {
-            items(songs) { song ->
-                SongItem(song = song) // Your existing SongItem composable
-                Divider()
+            items(recommendations.recommendations) { recSong ->
+                val songItem = Song(
+                    title = recSong.typeDetails.track.name,
+                    artist = recSong.typeDetails.artists[0].name,
+                    image = recSong.typeDetails.album.images[0].url)
+                SongItem(song = songItem) // Your existing SongItem composable
             }
         }
     }

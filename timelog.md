@@ -8,7 +8,7 @@
 
 |2024/02/20|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|0.5----|--------| Setup and initialize Node Server project for backend
 
-|2024/02/21|-----|−−−−−−−|−−−−−−−−|1----|-------|--------| Setup top app bar, navigation, and home screen structure
+|2024/02/21|-----|−−−−−−−|−−−−−−−−|1.5--|-------|--------| Setup top app bar, navigation, and home screen structure
 
 |2024/02/22|-----|−2.0−−−|−−−−−−−−|-----|-------|--------| Create login page frontend
 
@@ -22,7 +22,7 @@
 
 |2024/02/29|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|3.0----|--------| Implement authentication and session management API through Spotify's API and initialize app on Spotify Developer Platform
 
-|2024/03/01|-----|−−−−−−−|−−−−−−−−|3.5--|-------|--------| Develop and design home screen with side navigation panel
+|2024/03/01|-----|−−−−−−−|−−−−−−−−|4----|-------|--------| Develop and design home screen with side navigation panel
 
 |2024/03/02|-----|-------|--------|-----|-------|4-------| Resolve errors with Statistics UI Page and issues with emulator 
 
@@ -66,20 +66,34 @@
 
 |2024/04/01|-----|-------|--------|-----|8------|--------| Update documentation to describe usage of all endpoints and error codes. Resolved deployment issues. Created database tables and security.
 
-|2024/04/01|-----|-------|---8.0---|-----|-------|--------| Created Filter with checkbox, slider for Recommendations page
+|2024/04/01|-----|-------|---8.0--|-----|-------|--------| Created Filter with checkbox, slider for Recommendations page
 
 |2024/04/01|-----|4.0----|--------|-----|-------|--------| Understand how Spotify authentication works on android
 
 |2024/04/01|-----|7.0----|--------|-----|-------|--------| Add Spotify authentication to Login frontend
 
-|2024/04/01|--6---|--6---|6-------|6----|6------|-6------| Integrating API calls with frontend UI
+|2024/04/01|--6--|--6----|6-------|6----|6------|-6------| Integrating API calls with frontend UI
 
-|2024/04/01|--6---|------|--------|-----|-------|--------| Worked on calendar filter for history page
+|2024/04/01|--6--|-------|--------|-----|-------|--------| Worked on calendar filter for history page
 
-|2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
+|2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoints more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
 
-|2024/04/02|--6--|---6---|--6-----|-6---|---6---|----6---| Merge all changes
+|2024/04/02|--6--|---6---|--6-----|6----|---6---|----6---| Merge all changes
 
 |2024/04/02|-----|1.0----|--------|-----|-------|--------| Fix login bugs from merging changes
 
 |2024/04/03|4----|4------|4-------|4----|4------|4-------| Fix any additional merge issues
+
+|2024/04/04|-----|-------|--------|8----|-------|--------| Debugged issues with Retrofit and setting up API requests in Android Studio/Jetpack Compose
+
+|2024/04/05|-----|-------|--------|15---|-------|--------| Fixed the Retrofit Instance, began setting up the connection between the front-end and back-end, adapted the code to the MVVM style by creating the Model and ViewModel classes, debugged many issues encountered
+
+|2024/04/06|-----|-------|--------|12---|-------|--------| Set up the front-end and back-end connection to successfully display API data on the Home, Recommendations, Search, and Search Results screens and debugged issues along the way
+
+|2024/04/06|-----|-------|--------|2----|-------|--------| Implemented working Search screen functionality to retrieve matching recommendations
+
+|2024/04/07|-----|-------|--------|0.5--|-------|--------| Added "Listen on Spotify" links to songs that open the track/album in Spotify through Chrome
+
+|2024/04/07|-----|-------|--------|0.5--|-------|--------| Added UI updates including displaying album images fetched from back-end and re-formatting 
+
+|2024/04/10|-----|-------|--------|4----|-------|--------| Debugged login flow, emulator issues, updated setting access token through viewModel and navigation between login and home screen
