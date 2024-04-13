@@ -83,3 +83,17 @@
 |2024/04/02|-----|1.0----|--------|-----|-------|--------| Fix login bugs from merging changes
 
 |2024/04/03|4----|4------|4-------|4----|4------|4-------| Fix any additional merge issues
+
+|2024/04/04|-----|-------|--------|8----|-------|--------| Debugged issues with Retrofit and setting up API requests in Android Studio/Jetpack Compose
+
+|2024/04/05|-----|-------|--------|15---|-------|--------| Fixed the Retrofit Instance, began setting up the connection between the front-end and back-end, adapted the code to the MVVM style by creating the Model and ViewModel classes, debugged many issues encountered (placed under my Amy branch)
+
+|2024/04/06|-----|-------|--------|12---|-------|--------| Set up the front-end and back-end connection to successfully display API data on the Home, Recommendations, Search, and Search Results screens and debugged issues along the way (placed under my Amy branch)
+
+|2024/04/06|-----|-------|--------|2----|-------|--------| Implemented working Search screen functionality to retrieve matching recommendations (placed under my Amy branch)
+
+|2024/04/07|-----|-------|--------|0.5--|-------|--------| Added "Listen on Spotify" links to songs that open the track/album in Spotify through Chrome (placed under my Amy branch)
+
+|2024/04/07|-----|-------|--------|0.5--|-------|--------| Added UI updates including displaying album images fetched from back-end and re-formatting (placed under my Amy branch)
+
+|2024/04/10|-----|-------|--------|4----|-------|--------| Debugged login flow, emulator issues, updated setting access token through viewModel and navigation between login and home screen (placed under my Amy branch)
