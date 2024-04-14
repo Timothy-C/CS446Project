@@ -26,6 +26,8 @@
 
 |2024/03/01|-----|−−−−−−−|−−−−−−−−|3.5--|-------|--------| Develop and design home screen with side navigation panel
 
+|2024/03/01|--3--|-------|--------|-----|-------|--------| Experimenting with using physical android phone for development (unsuccessful)
+
 |2024/03/02|-----|-------|--------|-----|-------|4-------| Resolve errors with Statistics UI Page and issues with emulator 
 
 |2024/03/02|-3---|−−−−−−−|−−−−−−−−|-----|-------|--------| Develop history page
@@ -39,6 +41,8 @@
 |2024/03/10|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|6------|--------| Implement API endpoints for direct access to Spotify API information
 
 |2024/03/11|-----|-------|--------|-----|-------|2-------| Refactor statistics page, remove xml files for statistics page and modified implementation using Jetpack Compose
+
+|2024/03/12|--8--|-------|--------|-----|-------|--------| Investigated page setting for history instead of infinite scroll (feature dropped, and i forgot to add this to final report)
 
 |2024/03/17|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|4------|--------| Added Spotify search endpoint with extended search parameters which all endpoints in future will implement. Cleaned up Spotify response parsing code
 
@@ -97,6 +101,8 @@
 |2024/04/04|-----|-------|--------|8----|-------|--------| Debugged issues with Retrofit and setting up API requests in Android Studio/Jetpack Compose
 
 |2024/04/05|-----|-------|--------|15---|-------|--------| Fixed the Retrofit Instance, began setting up the connection between the front-end and back-end, adapted the code to the MVVM style by creating the Model and ViewModel classes, debugged many issues encountered (placed under my Amy branch)
+
+|2024/04/06|--4--|-------|--------|-----|-------|--------| experimenting with different emulators to find issues in app
 
 |2024/04/06|-----|-------|--------|12---|-------|--------| Set up the front-end and back-end connection to successfully display API data on the Home, Recommendations, Search, and Search Results screens and debugged issues along the way (placed under my Amy branch)
 
