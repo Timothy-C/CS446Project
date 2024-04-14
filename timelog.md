@@ -12,9 +12,9 @@
 
 |2024/02/22|-----|−2.0−−−|−−−−−−−−|-----|-------|--------| Create login page frontend
 
-|2024/02/23|-----|−−−−−−−|−−5.0-−−|−−−−−|-------|--------| Develop recommendations page
+|2024/02/23|-----|−−−−−−−|−−5.0-−−|−−−−−|-------|--------| Develop the structure of recommendations page
 
-|2024/02/26|-----|−−−−−−−|−-9.0-−−|−−−−−|-------|--------| Develop Throwbacks page
+|2024/02/26|-----|−−−−−−−|−-9.0-−−|−−−−−|-------|--------| Develop the structure of Throwbacks page
 
 |2024/02/26|-----|−−−−−−−|−-4.0-−−|−−−−−|-------|--------| Resolved error
 
