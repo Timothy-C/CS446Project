@@ -14,7 +14,9 @@
 
 |2024/02/23|-----|−−−−−−−|−−5.0-−−|−−−−−|-------|--------| Develop recommendations page
 
-|2024/02/26|-----|−−−−−−−|−-3.0-−−|−−−−−|-------|--------| Develop Throwbacks page, resolved error
+|2024/02/26|-----|−−−−−−−|−-9.0-−−|−−−−−|-------|--------| Develop Throwbacks page
+
+|2024/02/26|-----|−−−−−−−|−-4.0-−−|−−−−−|-------|--------| Resolved error
 
 |2024/02/27|-----|-------|--------|-----|-------|4-------| Create Statistics UI Page xml files and class
 
@@ -32,11 +34,15 @@
 
 |2024/03/03|-----|-------|--------|3----|-------|--------| Made reformatting changes across the app screens to improve the UI and enforce a consistent theme
 
+|2024/03/10|−−−−−|−−−−−−−|−−−10−−−−|−−−−−|-------|--------| Showed list of songs in Recommendations page
+
 |2024/03/10|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|6------|--------| Implement API endpoints for direct access to Spotify API information
 
 |2024/03/11|-----|-------|--------|-----|-------|2-------| Refactor statistics page, remove xml files for statistics page and modified implementation using Jetpack Compose
 
 |2024/03/17|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|4------|--------| Added Spotify search endpoint with extended search parameters which all endpoints in future will implement. Cleaned up Spotify response parsing code
+
+|2024/03/17|-----|-------|---2.0---|-----|-------|--------| Fixed error when showing list of songs 
 
 |2024/03/25|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|5------|--------| Setup and deploy API and DB to AWS
 
@@ -46,7 +52,9 @@
 
 |2024/03/27|-----|-------|--------|-----|8------|--------| Refactor /spotify endpoints, fixing bugs and completing all major feature
 
-|2024/03/30|-----|-------|----2---|-----|-------|--------| Modified the structure of Recommendations page, changed the UI-font colour
+|2024/03/28|-----|-------|----2---|-----|-------|--------| Changed the UI-font colour
+
+|2024/03/30|-----|-------|--10.0--|-----|-------|--------| Resolved error, Modified the structure of Recommendations page
 
 |2024/03/30|-----|-------|--------|-----|-------|5-------| Merge with main, update Statistics Page with new features, with new UI design based on API endpoints
 
@@ -75,6 +83,8 @@
 |2024/04/01|--6---|--6---|6-------|6----|6------|-6------| Integrating API calls with frontend UI
 
 |2024/04/01|--6---|------|--------|-----|-------|--------| Worked on calendar filter for history page
+
+|2024/04/02|-----|-------|---6.0---|-----|-------|--------| Resolved errors when showing sliders 
 
 |2024/04/02|-----|-------|--------|-----|18-----|--------| (yes, 18 hours) Refactor all http fetching code. Made endpoitns more robust. Added better logging. Implemented error codes as described in README. Implemented /spotistics endpoints. Implemented new /spotify endpoint for bulk fetching song details. Tested API endpoints. Testing methods for new login from frontend (because previously developed method was discovered to be unusable)
 
