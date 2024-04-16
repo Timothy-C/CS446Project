@@ -18,9 +18,11 @@
 
 |2024/02/26|-----|−−−−−−−|−-4.0-−−|−−−−−|-------|--------| Resolved error
 
-|2024/02/27|-----|-------|--------|-----|-------|4-------| Create Statistics UI Page xml files and class
+|2024/02/27|-----|-------|--------|-----|-------|6-------| Create Statistics UI Page xml files and class files
 
 |2024/02/27|-----|−1.0−−−|−−−−−−−−|-----|-------|--------| Create settings page frontend
+
+|2024/02/28|-----|-------|--------|-----|-------|2-------| Resolved emulator issues
 
 |2024/02/29|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|3.0----|--------| Implement authentication and session management API through Spotify's API and initialize app on Spotify Developer Platform
 
@@ -28,7 +30,7 @@
 
 |2024/03/01|--3--|-------|--------|-----|-------|--------| Experimenting with using physical android phone for development (unsuccessful)
 
-|2024/03/02|-----|-------|--------|-----|-------|4-------| Resolve errors with Statistics UI Page and issues with emulator 
+|2024/03/02|-----|-------|--------|-----|-------|8-------| Resolve errors with Statistics UI Page and issues with emulator 
 
 |2024/03/02|-3---|−−−−−−−|−−−−−−−−|-----|-------|--------| Develop history page
 
@@ -40,7 +42,7 @@
 
 |2024/03/10|−−−−−|−−−−−−−|−−−−−−−−|−−−−−|6------|--------| Implement API endpoints for direct access to Spotify API information
 
-|2024/03/11|-----|-------|--------|-----|-------|2-------| Refactor statistics page, remove xml files for statistics page and modified implementation using Jetpack Compose
+|2024/03/11|-----|-------|--------|-----|-------|8-------| Refactor statistics page, remove xml files for statistics page and modified implementation using Jetpack Compose
 
 |2024/03/12|--8--|-------|--------|-----|-------|--------| Investigated page setting for history instead of infinite scroll (feature dropped, and i forgot to add this to final report)
 
@@ -60,17 +62,17 @@
 
 |2024/03/30|-----|-------|--10.0--|-----|-------|--------| Resolved error, Modified the structure of Recommendations page
 
-|2024/03/30|-----|-------|--------|-----|-------|5-------| Merge with main, update Statistics Page with new features, with new UI design based on API endpoints
+|2024/03/30|-----|-------|--------|-----|-------|7-------| Merge with main, update Statistics Page with new features, with new UI design based on API endpoints
 
-|2024/03/30|-----|-------|--------|-----|-------|2-------| Added Slider bar to display user preferences Statistic and scroll for entire page
+|2024/03/30|-----|-------|--------|-----|-------|3-------| Added Slider bar to display user preferences Statistic and scroll for entire page, added user preferences feature
 
 |2024/03/31|-----|-------|--------|-----|6------|--------| Connect backend with db. Create service workers for all the main functionality between them
 
-|2024/03/31|-----|-------|--------|-----|-------|8-------| Created Calendar to filter Statistics by week, fixed issues with accessing user selected dates in different functions to update variables
+|2024/03/31|-----|-------|--------|-----|-------|10-------| Created Calendar to filter Statistics by week, fixed issues with accessing user selected dates in different functions to update variables
 
 |2024/03/31|--7--|-------|--------|-----|-------|--------| Work on Retrofit API calls, investigated Cronet and other ways to call API
 
-|2024/04/01|-----|-------|--------|-----|-------|6-------| Modified code to allow for data to be passed in with separate functions to allow for API calls, creating new function calls for all data points
+|2024/04/01|-----|-------|--------|-----|-------|7-------| Modified code to allow for data to be passed in with separate functions to allow for API calls, creating new function calls for all data points
 
 |2024/04/01|-----|-------|--------|4----|-------|--------| Added Retrofit API calls and some set up for passing API responses to the corresponding screens, as well as debugging unsuccessful responses
 
